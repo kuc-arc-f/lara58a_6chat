@@ -1,0 +1,62 @@
+/**********************************************
+ * Notification 通知
+ *********************************************/    
+function recv_pushMessage(title, body){
+    if (!('Notification' in window)) {//対応してない場合
+        alert('未対応のブラウザです');
+    }
+    else {
+        // 許可を求める
+        Notification.requestPermission()
+        .then((permission) => {
+            if (permission === 'granted') {// 許可
+                var options ={
+                    body: body,
+                    icon: 'http://localhost:8000/icon1.png',
+                    tag: ''
+                }
+                var n = new Notification(title,options);
+                console.log(n);
+                setTimeout(n.close.bind(n), 5000);
+            }
+            else if (permission == 'denied') {// 拒否
+            }
+            else if (permission == 'default') {// 無視
+            }
+        });
+    }  
+}
+
+/**********************************************
+ * Send POST
+ *********************************************/    
+function fcm_send(send_title, send_body, IID_TOKEN, FCM_SERVER_KEY){
+
+    if(IID_TOKEN.length < 1){ return; }
+    var key = FCM_SERVER_KEY;
+    var to = IID_TOKEN;
+    var notification = {
+        'title': send_title,
+        'body': send_body,
+        'icon': 'firebase-logo.png',
+        'click_action': 'http://localhost'
+    };
+
+    fetch('https://fcm.googleapis.com/fcm/send', {
+    'method': 'POST',
+    'headers': {
+        'Authorization': 'key=' + key,
+        'Content-Type': 'application/json'
+    },
+    'body': JSON.stringify({
+        'notification': notification,
+        'to': to
+        })
+    }).then(function(response) {
+//        console.log(response);
+    }).catch(function(error) {
+        console.error(error);
+    })
+};
+
+
