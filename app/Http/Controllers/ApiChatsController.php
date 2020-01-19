@@ -44,8 +44,8 @@ class ApiChatsController extends Controller
         if (isset($_GET['cid'])) {
             $chat_posts = ChatPost::orderBy('id', 'asc')
                 ->where('chat_id', $_GET['cid'] )
-                ->limit($this->TBL_LIMIT)
                 ->get();
+//                ->limit($this->TBL_LIMIT)
             return response()->json($chat_posts );
         }
     }        

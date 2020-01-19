@@ -58,14 +58,6 @@
             </p>
         </div>
   
-        <!--
-        <hr />
-        <a href="#" onClick="fcm_send_proc();">[ test ]</a>
-        <br />
-        fcm_send_member
-        Send to member
-        <a href="#" onClick="update_post();" class="btn btn-primary">投稿する</a>
-        -->
     </div>
 
     <hr />
@@ -199,10 +191,8 @@ new Vue({
 //        recv_pushMessage(notify.title, notify.body);
         recv_pushMessage("", notify.body);
         botui.message.add({
-//                human: true,
                 content: notify.body
         });        
-//        console.log(notify.title );
         console.log(notify.body );
     });
     /**********************************************

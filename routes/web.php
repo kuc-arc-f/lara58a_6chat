@@ -49,6 +49,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('api')->group(function(){
     Route::get('/apichats/get_post', 'ApiChatsController@get_post');
     Route::post('/apichats/update_token', 'ApiChatsController@update_token');
-        Route::post('/apichats/update_post', 'ApiChatsController@update_post');
+    Route::post('/apichats/update_post', 'ApiChatsController@update_post');
 //        Route::resource('apichats', 'ApiChatsController' );  
 });

@@ -65,17 +65,21 @@ class ChatsController extends Controller
         $chat_members = ChatMember::where('chat_id', $id)
             ->where('user_id' , '<>', $user_id)
             ->get(); 
+//debug_dump($chat_members->toArray() );
+
         $chat_member = ChatMember::where('chat_id', $id)
             ->where('user_id', $user_id)
             ->first(); 
+        if(empty($chat_member)){
+            session()->flash('flash_message', 'このチャットに、参加していません。');
+            return redirect()->route('chats.index');
+        }
+
         $chat_posts = ChatPost::where('chat_id', $id)
             ->orderBy('id', 'desc')
             ->limit($this->TBL_LIMIT)
             ->get(); 
         $chat_posts_json = json_encode($chat_posts->toArray() );
-//debug_dump($chat_posts->toArray() );
-//debug_dump(json_encode($chat_posts->toArray()) );
-//exit();
         return view('chats/show')->with(compact(
             "chat", "user_id", "id", "chat_member",
              "chat_members","user", "chat_posts", "chat_posts_json"
