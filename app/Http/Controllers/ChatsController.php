@@ -29,7 +29,21 @@ class ChatsController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $user_id = Auth::id();
+        /*
+        $chats = Chat::select([
+            "chats.id",
+            "chats.name",
+            "chat_members.user_id"
+        ])
+        ->leftJoin('chat_members',
+            'chats.id','=','chat_members.chat_id'
+        )
+        ->where('chat_members.user_id', $user_id)
+        ->orderBy('id', 'desc')->paginate(10 );        
+        */
         $chats = Chat::orderBy('id', 'desc')->paginate(10 );
+//debug_dump($chats->toArray() );
         return view('chats/index')->with(compact('chats', 'user'));
     }
     /**************************************
@@ -123,22 +137,35 @@ class ChatsController extends Controller
     */
     /**************************************
      *
+     **************************************/    
+    private function get_memberExist($chat_id, $user_id){
+        $chat_members = ChatMember::where('chat_id', $chat_id )
+        ->where("user_id", $user_id )
+        ->get();
+        return $chat_members->toArray();
+    }
+    /**************************************
+     *
      **************************************/
     public function add_member(){
         $user_id = Auth::id();        
         if (isset($_GET['cid'])) {
+            //valid
+            $checkMember = $this->get_memberExist($_GET['cid'], $user_id);
+            if(!empty($checkMember)){
+                $errors =[];
+                $errors[] = "このチャットは登録済です。";
+                return redirect()->back()->withErrors($errors)->withInput();
+            }            
             $chat_id = $_GET['cid'];
-//var_dump($_GET['cid'] );
             $data = [
                 "user_id" => $user_id,
                 "chat_id" => $chat_id,
             ];
             $chat_member = new ChatMember();
-//            $chat_member["user_id"]= $user_id;
             $chat_member->fill($data );
             $chat_member->save();
         }
-//exit();
         session()->flash('flash_message', 'チャット参加登録が完了しました');
         return redirect()->route('chats.index');
     }

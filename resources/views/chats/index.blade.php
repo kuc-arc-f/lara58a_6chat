@@ -4,6 +4,15 @@
 @section('content')
 
 <div class="panel panel-default">
+    @if (count($errors) > 0)
+        <div class="alert alert-danger">
+        <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+        </ul>
+        </div>
+    @endif    
     <div class="panel-heading">
         <BR />
         <h1>Chat Select </h1>
@@ -34,8 +43,10 @@
                         <td class="table-text">
                             <a href="chats/add_member?cid={{$chat->id}}">[ 参加する ]
                             </a>
+                            <!--
                             <a href="chats/delete_member?cid={{$chat->id}}">[ 退会 ]
                             </a>
+                            -->
                         </td>
                         <td class="table-text">
                             {{ link_to_route('chats.edit', '編集'
