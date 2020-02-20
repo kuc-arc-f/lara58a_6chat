@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 //
-//Route::get('/tasks/data1', 'TasksController@data1');
+//Route::get('/tasks/test1', 'TasksController@test1');
 Route::resource('tasks', 'TasksController');
 //
 Route::get('/books/test3', 'BooksController@test3')->name('books.test3');
@@ -41,13 +41,16 @@ Route::resource('chats', 'ChatsController');
 Auth::routes();
 //
 Route::get('/home', 'HomeController@index')->name('home');
-
+Route::get('/about', function () {
+    return view('about');
+});
 
 /**************************************
  * API
  **************************************/
 Route::prefix('api')->group(function(){
     Route::get('/apichats/get_post', 'ApiChatsController@get_post');
+    Route::post('/apichats/get_send_members', 'ApiChatsController@get_send_members');
     Route::post('/apichats/update_token', 'ApiChatsController@update_token');
     Route::post('/apichats/update_post', 'ApiChatsController@update_post');
 //        Route::resource('apichats', 'ApiChatsController' );  

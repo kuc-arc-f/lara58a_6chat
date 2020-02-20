@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Libs\AppConst;
 use App\Chat;
 use App\ChatMember;
 use App\ChatPost;
@@ -48,6 +49,30 @@ class ApiChatsController extends Controller
 //                ->limit($this->TBL_LIMIT)
             return response()->json($chat_posts );
         }
-    }        
+    }  
+    /**************************************
+     *
+     **************************************/ 
+    public function get_send_members(Request $request){
+        $data = $request->all();
+//var_dump( $data );
+        $member = ChatMember::select([
+            'chat_members.id',
+            'chat_members.user_id',
+            'chat_members.token',            
+        ])
+        ->join('users','users.id','=','chat_members.user_id')
+        ->where('chat_members.chat_id', $data["chat_id"])
+        ->where('users.email', $data["mail"])->first();
+        ;
+
+//var_dump( $member );
+        $ret =[
+            "ret" => 1,
+            "member" =>  $member,
+        ];
+///        $const = new AppConst;
+        return response()->json( $ret );
+    }  
 
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Task;
+use App\ChatMember;
 use Log;
 
 //
@@ -118,7 +119,24 @@ class TasksController extends Controller
         }
 //debug_dump($data);
 exit();
-    }    
+    } 
+    /**************************************
+     *
+     **************************************/
+    //Request $request
+    public function test1(Request $request){
+        $member = ChatMember::select([
+            'chat_members.id',
+            'chat_members.user_id',
+            'chat_members.token',            
+        ])
+        ->join('users','users.id','=','chat_members.user_id')
+        ->where('chat_members.chat_id', "1")
+        ->where('users.email', "naka@aaa.com")->first();
+debug_dump($member->toArray() );
+        exit();
+    }
+    //
 
 
 }

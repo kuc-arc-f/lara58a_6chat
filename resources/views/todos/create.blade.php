@@ -53,7 +53,7 @@
         <hr />
         <br />
         <div class="panel-footer">
-            {{ link_to_route('todos.index', '戻る') }}
+            {{ link_to_route('todos.index', '戻る' ,null, ['class' => 'btn btn-outline-primary']) }}
         </div>
     </div>
 @endsection

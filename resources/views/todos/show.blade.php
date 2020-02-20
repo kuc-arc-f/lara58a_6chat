@@ -6,24 +6,26 @@
 
 <div class="panel panel-default">
     <br />
-    <h1>Show :</h1>
-    <hr />
     <div class="panel-heading">
     </div>
     <div class="panel-body">
         <div>
-            <h3>{{ $todo->title }} </h3>
+            <h1>{{ $todo->title }} </h1>
+            <p>date : {{ $todo->created_at->format('Y-m-d') }}</p>
         </div>
         <hr />
         <div>
-            <!--  -->
-            content :<br /><br />
+            <!-- content :  
+            <br /><br />
+            -->
             <div id="content_wrap">
             </div>
         </div>  
         <hr />
         <div>
-            complete:  {{ $complete_items[$todo->complete] }}
+            status: 
+            <span class="badge badge-secondary" style="font-size: 24px;">{{ $complete_items[$todo->complete] }}
+            </span>
         </div>   
 
         <div class="form-group">
@@ -36,7 +38,7 @@
     <hr />
     <br />
     <div class="panel-footer">
-        {{ link_to_route('todos.index', '戻る') }}
+        {{ link_to_route('todos.index', '戻る' ,null, ['class' => 'btn btn-outline-primary']) }}
     </div>
 </div>
 <!-- -->
