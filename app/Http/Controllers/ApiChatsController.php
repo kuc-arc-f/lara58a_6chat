@@ -73,6 +73,16 @@ class ApiChatsController extends Controller
         ];
 ///        $const = new AppConst;
         return response()->json( $ret );
-    }  
+    } 
+    /**************************************
+     * 投稿の更新, FCM client
+     **************************************/
+    public function update_post_client(Request $request){
+        $data = $request->all();
+        $chat_post = new ChatPost();
+        $chat_post->fill($data);
+        $chat_post->save();
+        return response()->json( $data );
+    }     
 
 }

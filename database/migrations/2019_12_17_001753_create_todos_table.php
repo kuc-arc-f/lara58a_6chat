@@ -20,7 +20,6 @@ class CreateTodosTable extends Migration
             $table->text('content')->nullable(); 
             $table->integer('complete')->nullable(false); 
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

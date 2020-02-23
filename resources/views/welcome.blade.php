@@ -1,99 +1,89 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>knaka0209.net</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+     <!-- js -->
+     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="top-right links" >
+        @auth
+            <a href="{{ url('/home') }}" class="btn btn-outline-primary">Home</a>
+        @else
+            <a href="{{ route('login') }}" class="btn btn-outline-primary">Login</a>
 
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
+            @if (Route::has('register'))
+                <a href="{{ route('register') }}" class="btn btn-outline-primary">Register</a>
             @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+        @endauth
+    </div>
+    <!-- container_top -->
+    <div id="div_img_main2" class="cover" style="" valign="bottom">
+        <div id="div_img_layer">
+            <h1>Demonstration<br>
+                for knaka0209.net
+            </h1>
+        </div>
+    </div>
+    <!-- container -->
+    <div class="container" id="id_main_conte">
+        <div class="row conte" id="id_row_service" style="margin-top:10px;">
+            <div class="col-sm-12" style="text-align:center;">
+            <h2 class="h4_td_title">Summary</h2>
+            <hr class="hr_ex1">
             </div>
         </div>
-    </body>
+        <br />
+        <div class="row conte" style="margin-bottom: 200px;">
+            <div class="col-sm-4">
+                <a href="/about" class="btn btn-outline-primary" >Learn more</a>
+            </div>
+            <div class="col-sm-8">
+            <h3> Laravel 5 , vue.js app sample</h3>
+            <p> <br>
+            </p>
+            </div>
+        </div>        
+    </div>
+    <!-- footer -->
+    @include('footer', [])
+</body>
 </html>
+<!-- -->
+<style>
+.top-right{
+    padding : 10px;
+    text-align: right;
+}
+div#div_img_main2 {
+    height: 300px;
+    color: #FFF;
+    margin: 0 0 0px;
+    width: 100%;
+    background: #80CBC4;
+    background-size: cover;
+    text-align: center;
+}
+#div_img_layer {
+    width: 100%;
+    height: 100%;
+}
+#div_img_main2 h1 {
+  margin: 0px;
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 3em;
+} 
+.h4_td_title {
+  color: #FF7043;
+  font-weight: bold;
+}   
+</style>

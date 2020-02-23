@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 //
-//Route::get('/tasks/test1', 'TasksController@test1');
+//Route::get('/tasks/data1', 'TasksController@data1');
 Route::resource('tasks', 'TasksController');
 //
 Route::get('/books/test3', 'BooksController@test3')->name('books.test3');
@@ -49,9 +49,13 @@ Route::get('/about', function () {
  * API
  **************************************/
 Route::prefix('api')->group(function(){
+    //chats
     Route::get('/apichats/get_post', 'ApiChatsController@get_post');
     Route::post('/apichats/get_send_members', 'ApiChatsController@get_send_members');
+    Route::post('/apichats/update_post_client', 'ApiChatsController@update_post_client');
     Route::post('/apichats/update_token', 'ApiChatsController@update_token');
     Route::post('/apichats/update_post', 'ApiChatsController@update_post');
-//        Route::resource('apichats', 'ApiChatsController' );  
+    //sys
+    Route::post('/apisystem/delete_db_day', 'ApiSystemController@delete_db_day');
+    Route::post('/apisystem/get_fcm_init', 'ApiSystemController@get_fcm_init');
 });

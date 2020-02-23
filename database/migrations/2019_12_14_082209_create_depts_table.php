@@ -17,7 +17,6 @@ class CreateDeptsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name')->nullable(false);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

@@ -19,7 +19,6 @@ class CreateChatsTable extends Migration
             $table->text('name')->nullable();
             $table->text('content')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
 
         // ALTER TABLE chats COMMENT 'チャット一覧'

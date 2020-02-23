@@ -25,17 +25,8 @@ class CreateBooksTable extends Migration
             $table->date('date_1')->nullable()->comment('date_1');
             $table->date('date_2')->nullable()->comment('date_2');
             $table->timestamps();
-            $table->softDeletes();
         });
 
-        /*
-            $table->bigIncrements('id');
-            $table->string('title')->nullable(false);
-            $table->integer('type')->nullable(false);            
-            $table->text('content')->nullable();            
-            $table->timestamps();
-            $table->softDeletes();        
-        */
     }
 
     /**

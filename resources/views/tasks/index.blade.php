@@ -49,7 +49,15 @@
         {{ link_to_route('tasks.create', 'Create' ,null, ['class' => 'btn btn-primary']) }}
         <br />
         <br />
+        @include('element.page_info',
+        [
+            'git_url' => 'https://github.com/kuc-arc-f/lara58a',
+            'blog_url' => 'https://knaka0209.hatenablog.com/entry/lara58_1'
+        ])        
+
     </div>
+
 </div>
 
 @endsection
+

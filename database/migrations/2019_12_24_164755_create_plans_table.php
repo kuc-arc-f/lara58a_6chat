@@ -19,7 +19,6 @@ class CreatePlansTable extends Migration
             $table->date('date')->nullable()->comment('予定の日付');
             $table->text('content')->nullable()->comment('内容');;
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

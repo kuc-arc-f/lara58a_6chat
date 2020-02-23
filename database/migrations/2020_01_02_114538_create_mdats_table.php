@@ -20,7 +20,6 @@ class CreateMdatsTable extends Migration
             $table->integer('hnum')->nullable(false);
             $table->integer('lnum')->nullable(false);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

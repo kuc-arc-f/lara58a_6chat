@@ -19,7 +19,6 @@ class CreateChatMembersTable extends Migration
             $table->bigInteger('user_id')->nullable(false);
             $table->text('token')->nullable()->comment('送信先トークン');          
             $table->timestamps();
-            $table->softDeletes();
         });
         // ALTER TABLE chat_members COMMENT 'チャットのメンバー'
     }

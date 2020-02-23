@@ -34,7 +34,7 @@
                     , $book->id, ['class' => 'btn btn-sm btn-default']) }}
                 </td>
                 <td class="table-text">
-                    {{ Form::open(['route' => ['tasks.destroy', $book->id], 'method' => 'delete']) }}
+                    {{ Form::open(['route' => ['books.destroy', $book->id], 'method' => 'delete']) }}
                         {{ Form::hidden('id', $book->id) }}
                         {{ Form::submit('削除', ['class' => 'btn btn-sm btn-default']) }}
                     {{ Form::close() }}

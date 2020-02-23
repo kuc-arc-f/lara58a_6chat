@@ -20,7 +20,6 @@ class CreateChatPostsTable extends Migration
             $table->text('title')->nullable()->comment('タイトル');
             $table->text('body')->nullable()->comment('メッセージ');
             $table->timestamps();
-            $table->softDeletes();
         });
         // ALTER TABLE chat_posts COMMENT 'チャットのメッセージ'
     }

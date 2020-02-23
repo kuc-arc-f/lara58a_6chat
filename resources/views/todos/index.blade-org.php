@@ -3,34 +3,38 @@
 
 @section('content')
 
+<div class="row">
+    <div class="col-sm-6"><h1>Todos - index</h1>
+    </div>
+    <div class="col-sm-6" style="text-align: right; font-size: 28px; padding-top:8px;">
+        <a href="/" title="初心者用ヘルプ"><i class="fas fa-question-circle"></i></a>
+    </div>
+
+</div>
 <div class="panel panel-default">
+    <!-- 
     <div class="panel-heading">
         <BR />
-        <h1>Todos - index</h1>
+        <h1>Todos - index</h1>  
     </div>
+    -->
     <hr />
     {{ link_to_route('todos.create', 'Create' ,null, ['class' => 'btn btn-primary']) }}
     <hr />
     <br />
     <div class="complete_wrap">
-        <?php if((int)$complete == 0){?>
-            <a href="/todos?complete=0" class="btn btn-primary">未完</a>
-            <a href="/todos?complete=1" class="btn btn-outline-primary">完了</a> 
-        <?php }else{ ?>        
-            <a href="/todos?complete=0" class="btn btn-outline-primary">未完
-            </a>
-            <a href="/todos?complete=1" class="btn btn-primary">完了 
-            </a>
-        <?php } ?>        
+        <a href="/todos?complete=0" class="btn btn-outline-primary">未完
+        </a>
+        <a href="/todos?complete=1" class="btn btn-outline-primary">完了 
+        </a>
     </div>
     <div class="panel-body">
         <table class="table table-striped task-table">
             <thead>
                 <th>ID</th>
                 <th>title</th>
-                <th>create</th>
-                <th>action</th>
-                <th> </th>
+                <th>edit</th>
+                <th>delete</th>
             </thead>
             <tbody>
             @foreach ($todos as $todo)
@@ -45,7 +49,7 @@
                         </h5>
                     <?php } ?>
                 </td>
-                <td class="table-text">{{ $todo->created_at->format('Y-m-d') }}
+                <td class="table-text">{{ $todo->created_at }}
                 </td>
 
                 <td class="table-text">
@@ -70,6 +74,7 @@
             'git_url' => 'https://github.com/kuc-arc-f/lara58a_3todo',
             'blog_url' => 'https://knaka0209.hatenablog.com/entry/lara58_6todo'
         ])        
+
     </div>
 </div>
 

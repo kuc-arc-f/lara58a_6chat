@@ -70,6 +70,14 @@
                 </tr>
             @endforeach
         </table>
+        <br />
+        <br />
+        @include('element.page_info',
+        [
+            'git_url' => 'https://github.com/kuc-arc-f/lara58a_4plan',
+            'blog_url' => 'https://knaka0209.hatenablog.com/entry/lara58_11_plan'
+        ])
+
     </div><!-- content_end -->
 </div>
 <!-- -->

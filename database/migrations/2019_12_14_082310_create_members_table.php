@@ -19,7 +19,6 @@ class CreateMembersTable extends Migration
             $table->string('name')->nullable(false);
             $table->string('mail')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
