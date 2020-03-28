@@ -132,7 +132,8 @@ class MdatsController extends Controller
         ->where("user_id", $user_id )
         ->whereBetween("date", [$startDt, $endDt ])
         ->get(['date', 'hnum', 'lnum'] )->toArray();
-//dd($mdats );
+//debug_dump($mdats );
+//exit();
         $csvHeader = ['date', 'Height' , 'Low'];
         array_unshift($mdats, $csvHeader);   
         $stream = fopen('php://temp', 'r+b');
@@ -287,6 +288,22 @@ class MdatsController extends Controller
             }
         }
         return redirect()->route('mdats.index');
+    }
+
+    /**************************************
+     *
+     **************************************/   
+    public function test1(Request $request){
+//dd("test1");
+        $nowdate = Date("Ymd");
+        $directory = storage_path('app/csv/');
+        var_dump($nowdate );
+        dd($directory );
+        //        $files = Storage::files($directory);
+        //        $files = Storage::files("local");
+        $files = Storage::allFiles("local");
+        dd($files );
+exit();
     }
 
 

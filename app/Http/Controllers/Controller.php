@@ -8,6 +8,8 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 use Log;
+use App\Todo;
+use App\User;
 //
 class Controller extends BaseController
 {
@@ -20,7 +22,20 @@ class Controller extends BaseController
      */
     public function __construct()
     {
-        $this->middleware('auth');
+//        $this->middleware('auth');
+    }
+
+    /**************************************
+     *
+     **************************************/    
+    public function get_guestUserId($mail){
+        $ret = "";
+        $user = User::where("email", $mail )
+        ->first();
+        if(!empty($user)){
+            $ret = $user["id"];
+        }
+        return $ret;
     }
 
 }

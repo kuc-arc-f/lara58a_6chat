@@ -1,29 +1,14 @@
 <?php
-//タスク
 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 use App\Task;
-use App\ChatMember;
-use Log;
-
 //
-class TasksController extends Controller
+class VueTasksController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //$this->middleware('auth');
-        //$user = Auth::user();
-        //$user_id = Auth::id();
-    }
+    
     /**************************************
      *
      **************************************/
@@ -31,14 +16,14 @@ class TasksController extends Controller
     {
 //var_dump("#index");
         $tasks = Task::orderBy('id', 'desc')->paginate(10 );
-        return view('tasks/index')->with('tasks', $tasks);
+        return view('vue/tasks/index')->with('tasks', $tasks);
     }    
     /**************************************
      *
      **************************************/
     public function create()
     {
-        return view('tasks/create')->with('task', new Task());
+        return view('vue/tasks/create')->with('task', new Task());
     }
     /**************************************
      * 入力値の検証
@@ -52,14 +37,13 @@ class TasksController extends Controller
     /**************************************
      *
      **************************************/    
+    /*
     public function store(Request $request)
     {
         $inputs = $request->all();
-        //validation
         $validation = $this->validator($inputs);
         if($validation->fails())
         {
-// debug_dump($validation->errors());
             return redirect()->back()->withErrors($validation->errors())->withInput();
         }
         $task = new Task();
@@ -67,13 +51,14 @@ class TasksController extends Controller
         $task->save();
         return redirect()->route('tasks.index');
     }
+    */
     /**************************************
      *
      **************************************/
     public function show($id)
     {
         $task = Task::find($id);
-        return view('tasks/show')->with('task', $task);
+        return view('vue/tasks/show')->with('task_id', $id );
     }
     /**************************************
      *
@@ -81,11 +66,9 @@ class TasksController extends Controller
     public function edit($id)
     {
         $task = Task::find($id);
-        return view('tasks/edit')->with('task', $task);
+        return view('vue/tasks/edit')->with('task_id', $id);
     }
-    /**************************************
-     *
-     **************************************/
+    /*
     public function update(Request $request, $id)
     {
         $task = Task::find($id);
@@ -93,15 +76,13 @@ class TasksController extends Controller
         $task->save();
         return redirect()->route('tasks.index');
     }
-    /**************************************
-     *
-     **************************************/
     public function destroy($id)
     {
         $task = Task::find($id);
         $task->delete();
         return redirect()->route('tasks.index');
     }  
+    */
     /**************************************
      *
      **************************************/
@@ -117,24 +98,5 @@ class TasksController extends Controller
         }
 //debug_dump($data);
 exit();
-    } 
-    /**************************************
-     *
-     **************************************/
-    //Request $request
-    public function test1(Request $request){
-        $member = ChatMember::select([
-            'chat_members.id',
-            'chat_members.user_id',
-            'chat_members.token',            
-        ])
-        ->join('users','users.id','=','chat_members.user_id')
-        ->where('chat_members.chat_id', "1")
-        ->where('users.email', "naka@aaa.com")->first();
-debug_dump($member->toArray() );
-        exit();
-    }
-    //
-
-
+    }     
 }

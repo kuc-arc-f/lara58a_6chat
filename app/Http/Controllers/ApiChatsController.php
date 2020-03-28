@@ -79,6 +79,8 @@ class ApiChatsController extends Controller
      **************************************/
     public function update_post_client(Request $request){
         $data = $request->all();
+        
+        //valid ,admin_user add
         $chat_post = new ChatPost();
         $chat_post->fill($data);
         $chat_post->save();

@@ -77,6 +77,15 @@ class BooksController extends Controller
         return redirect()->route('books.index');
     }
     /**************************************
+     *
+     **************************************/
+    public function destroy($id)
+    {
+        $book = Book::find($id);
+        $book->delete();
+        return redirect()->route('books.index');
+    }    
+    /**************************************
      * csrf, test
      **************************************/
     public function test1(Request $request ){

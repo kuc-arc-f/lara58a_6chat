@@ -32,10 +32,13 @@ function fcm_send(send_title, send_body, IID_TOKEN, FCM_SERVER_KEY){
     })
 };
 
-
-var data = { 'param1': 1 };
+var data = { 
+    'param1': 1, 
+    'mail': 'hoge@example.com', 
+    'password': '1234' 
+};
 axios.post('/api/apisystem/get_fcm_init' , data ).then(res => {
-//console.log(res.data );
+console.log(res.data );
     var resParams = res.data.params;
     var params ={
         "messagingSenderId" : resParams.FCM_messagingSenderId,

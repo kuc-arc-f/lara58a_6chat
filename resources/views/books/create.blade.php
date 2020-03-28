@@ -80,7 +80,7 @@
         <br />
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-6">
-                {!! Form::submit('タスク追加', ['class' => 'btn btn-primary']) !!}
+                {!! Form::submit('追加', ['class' => 'btn btn-primary']) !!}
             </div>
         </div>
         {!! Form::close() !!}

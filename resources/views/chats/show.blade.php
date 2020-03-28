@@ -9,8 +9,7 @@
 <link href="/css/botui-theme-default.css" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-messaging.js"></script>
-<script src="/js/recv_notification.js?A4"></script>
-<script src="/js/app_const.js?A1"></script>
+
 <script src="https://unpkg.com/botui/build/botui.min.js"></script>
 
 <!-- -->
@@ -43,7 +42,6 @@
                 </div>
               </div>  
         </div>
-        <br />
         <!-- -->    
         <div class="token_wrap" style="display: none;">
             <p>
@@ -59,31 +57,31 @@
         </div>
   
     </div>
-
     <hr />
-    <br />
     <div class="panel-footer">
         {{ link_to_route('chats.index', '戻る') }}
+        <br />
+        <br />
     </div>
+    @include('element.page_info',
+    [
+        'git_url' => 'https://github.com/kuc-arc-f/lara58a_6chat',
+        'blog_url' => 'https://knaka0209.hatenablog.com/entry/lara58_13chat'
+    ])
+
 </div>
 
 <!-- -->
 <script>
-firebase.initializeApp({
-    'messagingSenderId': AppConst.messagingSenderId
-});
-//FCM
 const CHAT_MEMBER_ID  ="{{$chat_member->id}}";
 const CHAT_ID  ="{{$id}}";
 const USER_ID  ="{{$user_id}}";
-const messaging = firebase.messaging();
-messaging.usePublicVapidKey(AppConst.PublicVapidKey );
+var messaging = null;
+var FCM_SERVER_KEY = "";
 var IID_TOKEN ="";
-const FCM_SERVER_KEY = AppConst.FCM_SERVER_KEY ;
 const textInstanceIdToken = document.getElementById('textInstanceIdToken');
 const elem_title = document.getElementById('send_title');
 const elem_body = document.getElementById('send_body');
-//
 var CHAT_MEMBERS = [];
 @foreach ($chat_members as $item )
     var data = {
@@ -92,7 +90,8 @@ var CHAT_MEMBERS = [];
         };
     CHAT_MEMBERS.push(data);
 @endforeach
-//
+
+// botui
 var botui = new BotUI('botui-app') // id of container
 new Vue({
         el: '#app',
@@ -104,7 +103,8 @@ new Vue({
     },
     methods: {
         update() {
-            this.message = 'Vue.js';
+//            this.message = 'Vue.js';
+            this.message = '';
         },
         get_posts(USER_ID) {
             axios.get('/api/apichats/get_post?cid=' +CHAT_ID)
@@ -134,14 +134,21 @@ new Vue({
         },
     }
 });
-//    console.log(CHAT_MEMBERS);
+//init
+var AppConst = {
+    "messagingSenderId" : "",
+    "PublicVapidKey" : "",
+    "FCM_SERVER_KEY" : "",
+}
     /**********************************************
      *
      *********************************************/
     function fcm_send_proc(){
         fcm_send(elem_title.value, elem_body.value, IID_TOKEN, FCM_SERVER_KEY);
     }
-    // 
+    /**********************************************
+     *
+     *********************************************/    
     function update_post(body){
         var data = {
                 'chat_id': CHAT_ID,
@@ -153,7 +160,9 @@ new Vue({
                 fcm_send_member(body );
             });
     }
-    // 
+    /**********************************************
+     *
+     *********************************************/    
     function fcm_send_member(body){
         CHAT_MEMBERS.forEach(function(item){
 //            console.log(item.token )
@@ -163,38 +172,41 @@ new Vue({
     /**********************************************
      * GET token
      *********************************************/    
-    messaging.getToken().then((currentToken) => {
-        if (currentToken) {
-            sendTokenToServer(currentToken);
-            IID_TOKEN = currentToken;
-            textInstanceIdToken.value = IID_TOKEN;
-            send_token(IID_TOKEN);
-            console.log(currentToken);
-        } else {
-            // Show permission request.
-            alert("ブラウザ通知を許可に設定下さい。メッセージを送受信できません");
-            console.log('No Instance ID token available. Request permission to generate one.');
-            // Show permission UI.
-            updateUIForPushPermissionRequired();
+    function fcm_get_token(){
+        messaging.getToken().then((currentToken) => {
+            if (currentToken) {
+                sendTokenToServer(currentToken);
+                IID_TOKEN = currentToken;
+                textInstanceIdToken.value = IID_TOKEN;
+                send_token(IID_TOKEN);
+//                console.log(currentToken);
+            } else {
+                // Show permission request.
+                alert("ブラウザ通知を許可に設定下さい。メッセージを送受信できません");
+                console.log('No Instance ID token available. Request permission to generate one.');
+                // Show permission UI.
+                updateUIForPushPermissionRequired();
+                setTokenSentToServer(false);
+            }
+        }).catch((err) => {
+            console.log('An error occurred while retrieving token. ', err);
             setTokenSentToServer(false);
-        }
-    }).catch((err) => {
-        console.log('An error occurred while retrieving token. ', err);
-        setTokenSentToServer(false);
-    });
+        });
+    }
     /**********************************************
      * recv
      *********************************************/    
-    messaging.onMessage((payload) => {
+     function fcm_onMessage(){
+        messaging.onMessage((payload) => {
 //        console.log('Message received. ', payload);
-        var notify = payload.notification;
-//        recv_pushMessage(notify.title, notify.body);
-        recv_pushMessage("", notify.body);
-        botui.message.add({
-                content: notify.body
-        });        
-        console.log(notify.body );
-    });
+            var notify = payload.notification;
+            recv_pushMessage("", notify.body);
+            botui.message.add({
+                    content: notify.body
+            });        
+            console.log(notify.body );
+        });
+     }
     /**********************************************
      *
      *********************************************/    
@@ -207,6 +219,7 @@ new Vue({
 // console.log(res.data );
             });
      }
+   
     //
     function sendTokenToServer(currentToken) {
         if (!isTokenSentToServer()) {
@@ -227,6 +240,8 @@ new Vue({
         window.localStorage.setItem('sentToServer', sent ? '1' : '0');
     }
 </script>
+<script src="/js/fcm_init.js?A1"></script>
+
 <!-- -->
 <style>
 #send_button{

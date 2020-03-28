@@ -26,11 +26,14 @@
             <div>
                 check_1 : {{ $book->check_1 }}
             </div>
+            <div>
+                check_2 : {{ $book->check_2 }}
+            </div>            
         </div>
         <hr />
         <br />
         <div class="panel-footer">
-            {{ link_to_route('tasks.index', '戻る') }}
+            {{ link_to_route('books.index', '戻る') }}
         </div>
     </div>
 
