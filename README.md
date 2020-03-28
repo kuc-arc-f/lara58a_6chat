@@ -30,4 +30,10 @@ php artisan serve
 https://knaka0209.hatenablog.com/entry/lara58_13chat
 
 ***
+### version / branch
 
+* v0_9_1
+
+ beta version
+
+***
