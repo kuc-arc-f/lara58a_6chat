@@ -169,5 +169,11 @@ class ChatsController extends Controller
         session()->flash('flash_message', 'チャット参加登録が完了しました');
         return redirect()->route('chats.index');
     }
+    /**************************************
+     *
+     **************************************/
+    public function test(){
+        return view('chats/test');
+    }
 
 }
