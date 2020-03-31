@@ -56,22 +56,20 @@ class ApiChatsController extends Controller
 				->join('users','users.id','=','chat_posts.user_id')
 				->where('chat_id', $_GET['cid'] )
 				->orderBy('id', 'desc')
+				->skip(0)->take($this->TBL_LIMIT)
 				->get();
 			$chat_posts = $chat_posts->toArray();
 			$post_items = [];
 			foreach($chat_posts as $chat_post){
 				$dt = new Carbon($chat_post["created_at"]);
 				$chat_post["date_str"] = $dt->format('m-d H:i');
+				$chat_post["body_org"] = $chat_post["body"];
+				$chat_post["body"] = nl2br($chat_post["body"]);
 				$post_items[] = $chat_post;
-//debug_dump($dt->format('m-d H:i') );
 			}
+//debug_dump($dt->format('m-d H:i') );
+//debug_dump($post_items );
 //exit();
-				/*
-				$chat_posts = ChatPost::orderBy('id', 'desc')
-				->where('chat_id', $_GET['cid'] )
-				->get();				
-				*/
-//                ->limit($this->TBL_LIMIT);
 			return response()->json($post_items );
 		}
 	}  
@@ -110,6 +108,18 @@ class ApiChatsController extends Controller
 		$chat_post->fill($data);
 		$chat_post->save();
 		return response()->json( $data );
-	}     
+	} 
+	/**************************************
+	 *
+	 **************************************/
+	public function delete_post(Request $request){
+		$data = $request->all();
+		$id = (int)$data["id"];
+		$chat_post = ChatPost::find($id);
+		$chat_post->delete();
+//		session()->flash('flash_message', '削除が完了しました');
+		session()->flash('flash_message', 'delete complete ID: ' . $id);
+		return response()->json( $data );
+	}
 
 }

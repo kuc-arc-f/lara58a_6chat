@@ -20,7 +20,7 @@
 					<div class="col-sm-6" style="text-align: right;">
 						<textarea v-model="message" class="form-control mt-0 mb-0"
 						rows="3" cols="40" id="send_text"
-						placeholder="please Input"></textarea>                        
+						placeholder="please Input" required="required"></textarea>                        
 					</div>
 					<div class="col-sm-6" style="text-align: left;">
 						<button @click="addItem" id="send_button" class="btn btn-primary">Post</button>                        
@@ -31,7 +31,8 @@
 			<!-- post-list -->
 			<ul class="ul_post_box" style="list-style: none;">
 				<li v-for="task in tasks" v-bind:key="task.id">
-					<div v-bind:class="'post_item'+' '+ task.item_bg">
+					<div v-bind:class="'post_item'+' '+ task.item_bg"
+						v-on:click="open_modal(task.id)">
 						<div class="col_name">
 							<div class="post_user_wrap">
 								<span style="font-size: 42px; float: left;" class="pl-2">
@@ -45,17 +46,19 @@
 								</span>
 								<div class="time_box pl-1" >
 									<p class="mb-0">@{{ task.user_name }}:<br /> 
-										@{{ task.date_str }}
+										@{{ task.date_str }}<br />
+										ID: @{{ task.id }}
 									</p>
 								</div>
 							</div>
 						</div>
 						<!-- style="width : 80%;" -->
-						<div style="width : 80%;">
-							<p class="li_p_box">@{{task.body}}
+						<div class="col_body">
+							<p class="li_p_box mb-0" v-html="task.body">
 							</p>							 
 						</div>
 					<div>
+				
 				</li>
 				
 			</ul>
@@ -74,8 +77,37 @@
 				style="width:100%;box-sizing:border-box;">
 			</p>
 		</div>
-	</div>	
-</div>  
+	</div>
+	<!-- modal -->	
+	<div class="modal fade" id="modal1" tabindex="-1"
+		role="dialog" aria-labelledby="label1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="label1">
+					@{{ modal_item.user_name }} : @{{ modal_item.date_str }}
+				</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<pre  v-html="modal_item.body_org"></pre>
+				<div v-if="delete_ok">
+					<hr />
+					<span style="font-size: 24px; color: red;" class="pl-2">
+						<i v-on:click="open_delete(modal_item.id)" class="far fa-trash-alt"></i>
+					</span>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+			</div><!-- modal-content -->
+		</div><!-- modal-dialog -->
+	</div><!-- modal -->
+
+</div><!-- app -->  
 <!-- -->
 <div class="time_text_wrap" style="display: none;">
 	watch-test:
@@ -91,8 +123,10 @@
 	border-bottom: 1px solid #000;
 }
 .post_item .col_name{
-	/* max-width : 200px; */
-	width : 20%;
+	/* max-width : 200px;
+	width : 20%; */
+	padding : 10px;
+	width : 180px;
 }
 .li_p_box{
 	/* margin-left : 52px; */
@@ -159,6 +193,8 @@ new Vue({
 	data: {
 		message: '',
 		tasks : [],
+		modal_item : [],
+		delete_ok : 0,
 	},
 	created:function(){
 		this.get_posts(USER_ID);
@@ -166,6 +202,36 @@ new Vue({
 	methods: {
 		update() {
 			this.message = '';
+		},
+		open_delete: function(id) {
+console.log(CHAT_ID);
+			var item = {
+                'id': id,
+            };
+            axios.post('/api/apichats/delete_post' , item ).then(res => {
+                console.log(res.data );
+                window.location.href = '/chats/'+ CHAT_ID;
+            });			
+		},
+		open_modal: function(id) {
+			var item = this.get_modal_data(id, this.tasks );
+			this.modal_item = item;
+			$('#modal1').modal('show');
+			this.delete_ok = 0;
+			if(item.user_id == USER_ID){
+				this.delete_ok = 1;
+			}
+//console.log(item.user_id);
+		},
+		get_modal_data(id, items ) {
+			var ret = null;
+			items.forEach(function(item){
+				if(item.id == id){
+					ret = item;
+				}
+				//console.log(item.id);
+			});
+			return ret;
 		},
 		get_posts(USER_ID) {
 			axios.get('/api/apichats/get_post?cid=' +CHAT_ID)
@@ -189,8 +255,12 @@ new Vue({
 		},
 		addItem() {
 			console.log(this.message );
-			update_post(this.message , CHAT_ID ,USER_ID);
-			set_time_text();
+			if(this.message !=''){
+				update_post(this.message , CHAT_ID ,USER_ID);
+				set_time_text();
+			}else{
+				alert("text input, require..");
+			}
 			this.message='';
 		},
 		count: function() {

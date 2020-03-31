@@ -56,6 +56,7 @@ Route::prefix('api')->group(function(){
     Route::post('/apichats/update_post_client', 'ApiChatsController@update_post_client');
     Route::post('/apichats/update_token', 'ApiChatsController@update_token');
     Route::post('/apichats/update_post', 'ApiChatsController@update_post');
+    Route::post('/apichats/delete_post', 'ApiChatsController@delete_post');
     //sys
     Route::post('/apisystem/delete_db_day', 'ApiSystemController@delete_db_day');
     Route::post('/apisystem/get_fcm_init', 'ApiSystemController@get_fcm_init');
