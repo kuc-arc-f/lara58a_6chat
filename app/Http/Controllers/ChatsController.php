@@ -170,6 +170,29 @@ class ChatsController extends Controller
         return redirect()->route('chats.index');
     }
     /**************************************
+     * chat情報の表示
+     **************************************/    
+    public function info_chat(){
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $chat = Chat::find($id);
+            $members = ChatMember::select([
+                'chat_members.id',
+                'chat_members.user_id',
+                'chat_members.created_at',
+                'chat_members.token',            
+                'users.name as user_name',
+            ])
+            ->join('users','users.id','=','chat_members.user_id')
+            ->where('chat_members.chat_id', $id)
+            ->orderBy('chat_members.id', 'desc')
+            ->skip(0)->take($this->TBL_LIMIT)
+            ->get();
+//debug_dump($members );
+            return view('chats/info_chat')->with(compact('chat' ,'members' ) );
+        }
+    }
+    /**************************************
      *
      **************************************/
     public function test(){

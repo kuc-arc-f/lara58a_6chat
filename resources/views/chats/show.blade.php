@@ -12,22 +12,28 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<h2>Chat: {{$chat->name}}</h2>
-			<p>chat-ID: {{$chat->id}} </p>
+			<p>chat-ID: {{$chat->id}}  
+				&nbsp;<a class="btn btn-outline-primary btn-sm"
+				 href="/chats/info_chat?id={{$chat->id}}">Chat info</a>
+			</p>
 			<hr />
 			<!-- input_area -->
 			<div class="input_area_wrap" style="text-align: center;">
 				<div class="row">
 					<div class="col-sm-6" style="text-align: right;">
-						<textarea v-model="message" class="form-control mt-0 mb-0"
+						<!--  mb-0 -->
+						<textarea v-model="message" class="form-control mt-0"
 						rows="3" cols="40" id="send_text"
+						v-on:click="input_active();"
 						placeholder="please Input" required="required"></textarea>                        
 					</div>
 					<div class="col-sm-6" style="text-align: left;">
 						<button @click="addItem" id="send_button" class="btn btn-primary">Post</button>                        
 					</div>
 				</div>
-			</div>	
-			<!-- <hr class="mt-0"> -->	
+			</div>
+			<hr class="mt-1 mb-2">	
+			<!--  mt-1  -->	
 			<!-- post-list -->
 			<ul class="ul_post_box" style="list-style: none;">
 				<li v-for="task in tasks" v-bind:key="task.id">
@@ -92,10 +98,11 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<pre  v-html="modal_item.body_org"></pre>
+				ID: @{{modal_item.id}}
+				<pre class="modal_body_text" v-html="modal_item.body_org"></pre>
 				<div v-if="delete_ok">
 					<hr />
-					<span style="font-size: 24px; color: red;" class="pl-2">
+					<span style="font-size: 24px; color: #f44336;" class="pl-2">
 						<i v-on:click="open_delete(modal_item.id)" class="far fa-trash-alt"></i>
 					</span>
 				</div>
@@ -117,6 +124,11 @@
 <!-- -->
 <style>
 .ul_post_box .bg_gray{	background: #EEE; }
+.modal_body_text{
+	border: 1px solid #000;
+	background: #EEE;
+	padding : 10px;
+}
 .post_item{
 	display:flex;
 	flex-wrap: wrap;
@@ -147,7 +159,9 @@
 }
 /* input */
 #send_button{	margin : 30px 10px;	}
+/*
 #send_text{		margin : 20px 0px; }
+*/
 </style>
 <!-- -->
 <div class="panel panel-default">
@@ -195,6 +209,7 @@ new Vue({
 		tasks : [],
 		modal_item : [],
 		delete_ok : 0,
+		input_expand_none: 0,
 	},
 	created:function(){
 		this.get_posts(USER_ID);
@@ -203,8 +218,12 @@ new Vue({
 		update() {
 			this.message = '';
 		},
+		input_active() {
+// console.log(this.input_expand_none );
+			$("#send_text").css('height','200px');
+//			$("#send_text").css('margin-bottom','10px');
+		},
 		open_delete: function(id) {
-console.log(CHAT_ID);
 			var item = {
                 'id': id,
             };
@@ -258,6 +277,7 @@ console.log(CHAT_ID);
 			if(this.message !=''){
 				update_post(this.message , CHAT_ID ,USER_ID);
 				set_time_text();
+				$("#send_text").css('height','90px');
 			}else{
 				alert("text input, require..");
 			}

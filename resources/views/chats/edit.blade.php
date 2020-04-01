@@ -40,7 +40,7 @@
         <hr />
         <br />
         <div class="panel-footer">
-            {{ link_to_route('tasks.index', '戻る') }}
+            {{ link_to_route('chats.index', '戻る') }}
         </div>
     </div>
 
