@@ -35,6 +35,7 @@ Route::get('/mdats/chart', 'MdatsController@chart')->name('mdats.chart');
 Route::resource('mdats', 'MdatsController');
 // chat
 Route::get('/chats/test', 'ChatsController@test')->name('chats.test');
+Route::get('/chats/csv_get', 'ChatsController@csv_get')->name('chats.csv_get');
 Route::get('/chats/info_chat', 'ChatsController@info_chat')->name('chats.info_chat');
 Route::get('/chats/add_member', 'ChatsController@add_member')->name('chats.add_member');
 //Route::get('/chats/home', 'ChatsController@home')->name('chats.home');

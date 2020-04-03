@@ -12,11 +12,19 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<h2>Chat: {{$chat->name}}</h2>
-			<p>chat-ID: {{$chat->id}}  
-				&nbsp;<a class="btn btn-outline-primary btn-sm"
-				 href="/chats/info_chat?id={{$chat->id}}">Chat info</a>
-			</p>
-			<hr />
+			<div class="row">
+				<div class="col-sm-6" style="text-align: left;">
+					<p>chat-ID: {{$chat->id}}  
+						&nbsp;<a class="btn btn-outline-primary btn-sm"
+						 href="/chats/info_chat?id={{$chat->id}}">Chat info</a>
+					</p>					
+				</div>
+				<div class="col-sm-6" style="text-align: right;">
+					<a href="/chats/csv_get?chat_id={{$chat->id}}"
+					class="btn btn-outline-primary btn-sm">CSV</a>
+				</div>
+			</div>
+			<hr class="mt-0"/>
 			<!-- input_area -->
 			<div class="input_area_wrap" style="text-align: center;">
 				<div class="row">
