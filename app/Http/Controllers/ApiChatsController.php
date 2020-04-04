@@ -63,8 +63,12 @@ class ApiChatsController extends Controller
 			foreach($chat_posts as $chat_post){
 				$dt = new Carbon($chat_post["created_at"]);
 				$chat_post["date_str"] = $dt->format('m-d H:i');
-				$chat_post["body_org"] = $chat_post["body"];
-				$chat_post["body"] = nl2br($chat_post["body"]);
+//				$body_org = $chat_post["body"];
+				$body = $chat_post["body"];
+				$body = preg_replace('/(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/', 
+						'<A href="\\1\\2">\\1\\2</A>', $body);
+				$chat_post["body_org"] = $body;
+				$chat_post["body"] = nl2br($body);
 				$post_items[] = $chat_post;
 			}
 //debug_dump($dt->format('m-d H:i') );
