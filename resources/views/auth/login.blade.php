@@ -68,12 +68,21 @@
                     <hr />
                     <div class="form-group row">
                         <div class="col-md-6 offset-md-4">
-                            guest@kuc-arc-f.com / password <br />でログイン 可能です。
+                            guest@kuc-arc-f.com / password <br />
+                            でも　上記ログイン 可能です。
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group row">
+                        <div class="col-md-6 offset-md-4">
+                            <a href="/users/valid_go" class="btn btn-outline-primary">Sign in with Google
+                            </a><br />
+                            Google ログインも可能です
                         </div>
                     </div>
                 </div>
-
             </div>
+            <br />
         </div>
     </div>
     <hr />

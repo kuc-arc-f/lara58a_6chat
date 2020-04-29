@@ -7,7 +7,10 @@
     <div class="panel panel-default">
         <br />
         <div class="panel-heading">
-            <h1>chat - 新規作成</h1>
+            {{ link_to_route('chats.index', '戻る'  ,null, ['class' => 'btn btn-outline-primary'] ) }}
+            <br />
+            <br />
+            <h3>chat - 新規作成</h3>
         </div>
         <hr />
 		@if (count($errors) > 0)
@@ -49,7 +52,6 @@
         <hr />
         <br />
         <div class="panel-footer">
-            {{ link_to_route('chats.index', '戻る') }}
         </div>
     </div>
 @endsection

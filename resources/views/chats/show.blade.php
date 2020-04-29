@@ -10,7 +10,11 @@
 <!-- -->
 <div id="app">
 	<div class="panel panel-default">
+		<br />
 		<div class="panel-body">
+			{{ link_to_route('chats.index', '戻る', null, ["class" => "btn btn-outline-primary"]) }}
+			<br />
+			<br />
 			<h2>Chat: {{$chat->name}}</h2>
 			<div class="row">
 				<div class="col-sm-6" style="text-align: left;">
@@ -21,7 +25,7 @@
 				</div>
 				<div class="col-sm-6" style="text-align: right;">
 					<a href="/chats/csv_get?chat_id={{$chat->id}}"
-					class="btn btn-outline-primary btn-sm">CSV</a>
+					class="btn btn-outline-primary btn-sm">CSV 出力</a>
 				</div>
 			</div>
 			<hr class="mt-0"/>
@@ -175,7 +179,9 @@
 <div class="panel panel-default">
 	<hr />
 	<div class="panel-footer">
+		<!--
 		{{ link_to_route('chats.index', '戻る', null, ["class" => "btn btn-outline-primary"]) }}
+		-->
 		<br />
 		<br />
 	</div>

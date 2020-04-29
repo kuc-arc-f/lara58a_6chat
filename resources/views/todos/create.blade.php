@@ -7,7 +7,10 @@
     <div class="panel panel-default">
         <br />
         <div class="panel-heading">
-            <h1>新規作成</h1>
+            {{ link_to_route('todos.index', '戻る' ,null, ['class' => 'btn btn-outline-primary']) }}
+            <br />
+            <br />            
+            <h3>新規作成</h3>
         </div>
         <hr />
 		@if (count($errors) > 0)
@@ -40,20 +43,16 @@
                     ]) !!}
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-6">
                     {!! Form::submit('タスク追加', ['class' => 'btn btn-primary']) !!}
                 </div>
             </div>
-
-
             {!! Form::close() !!}
         </div>
         <hr />
         <br />
         <div class="panel-footer">
-            {{ link_to_route('todos.index', '戻る' ,null, ['class' => 'btn btn-outline-primary']) }}
         </div>
     </div>
 @endsection

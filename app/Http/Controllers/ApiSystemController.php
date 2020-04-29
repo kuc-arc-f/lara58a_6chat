@@ -17,7 +17,8 @@ use App\ChatPost;
 use App\Dept;
 use App\Member;
 use App\Mdat;
-
+use App\Libs\AppConst;
+//
 class ApiSystemController extends Controller
 {
     /**************************************
@@ -35,6 +36,11 @@ class ApiSystemController extends Controller
         $this->FCM_messagingSenderId = "";
         $this->FCM_PublicVapidKey = "";
         $this->FCM_SERVER_KEY = "";
+        //google_auth
+        $this->apiKey = " ";
+        $this->authDomain = " ";
+        $this->projectId = " ";
+        $this->appId = " ";        
     }
     /**************************************
      * １回/ 日　に、削除処理
@@ -299,6 +305,38 @@ class ApiSystemController extends Controller
         ];
         return response()->json( $ret );
     }
+    /**************************************
+     *
+     **************************************/
+    public function get_google_auth(Request $request){
+        $const = new AppConst;
+        $data = $request->all();
+        $valid = $this->valid_admin_user($data["mail"]);
+        if( $valid ==false){
+            $ret = [
+                "ret"=> 0 ,
+                "params" => null,
+                "data" => $data,
+            ];
+            return response()->json( $ret );            
+            exit();
+        }
+//var_dump($data);
+        $params = [
+            "apiKey" => $this->apiKey ,
+            "authDomain" => $this->authDomain ,
+            "projectId" => $this->projectId,            
+            "appId" => $this->appId ,
+            "auth_pass" => $const->google_user_pass,
+        ];
+        $ret = [
+            "ret"=> 1 ,
+            "params" => $params,
+            "data" => $data,
+        ];
+        return response()->json( $ret );
+    }
+
     /**************************************
      * delete -mdats- files
      **************************************/   

@@ -10,6 +10,9 @@
     </div>
     <div class="panel-body">
         <div>
+            {{ link_to_route('todos.index', '戻る' ,null, ['class' => 'btn btn-outline-primary']) }}
+            <br />
+            <br />
             <h1>{{ $todo->title }} </h1>
             <p>date : {{ $todo->created_at->format('Y-m-d') }}</p>
         </div>
@@ -38,7 +41,6 @@
     <hr />
     <br />
     <div class="panel-footer">
-        {{ link_to_route('todos.index', '戻る' ,null, ['class' => 'btn btn-outline-primary']) }}
     </div>
 </div>
 <!-- -->

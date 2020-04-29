@@ -5,9 +5,12 @@
 @section('content')
 
     <div class="panel panel-default">
+        <br />
         <div class="panel-heading">
+            {{ link_to_route('tasks.index', '戻る', null, ['class' => 'btn btn-outline-primary'] ) }}
            <br />
-           <h1>編集</h1>
+           <br />
+           <h3>編集</h3>
         </div>
         <hr />
         <div class="panel-body">
@@ -41,7 +44,6 @@
         <hr />
         <br />
         <div class="panel-footer">
-            {{ link_to_route('tasks.index', '戻る') }}
         </div>
     </div>
 

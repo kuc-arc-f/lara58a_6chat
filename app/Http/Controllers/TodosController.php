@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Todo;
+use App\Libs\AppConst;
 
 //
 class TodosController extends Controller
@@ -13,15 +14,17 @@ class TodosController extends Controller
     //
     public function __construct()
     {
-        $this->middleware('auth');
+//        $this->middleware('auth');
     }
     /**************************************
      *
      **************************************/
     public function index(Request $request)
     {   
+        $const = new AppConst;
+        $user_id  = $this->get_guestUserId( $const->guest_user_mail );
+//debug_dump( $user_id );
         $complete = 0;
-        $user_id = Auth::id();
         $inputs = $request->all();
         if(isset($inputs["complete"]) ){
             $complete = $inputs["complete"];
@@ -30,10 +33,6 @@ class TodosController extends Controller
         ->where("complete" , $complete)
         ->where("user_id" , $user_id )
         ->get();
-//debug_dump($todos->toArray() );
-//exit();
-//        ->paginate(10 );
-//        return view('todos/index')->with('todos', $todos );
         return view('todos/index')->with(compact('todos' ,'complete') );
     }    
     /**************************************
@@ -48,11 +47,14 @@ class TodosController extends Controller
      **************************************/    
     public function store(Request $request)
     {
-        $user_id = Auth::id();
+        $const = new AppConst;
+        $user_id  = $this->get_guestUserId( $const->guest_user_mail );
+//debug_dump( $user_id );
+//exit();        
         $inputs = $request->all();
         $inputs["complete"] = 0;
         $inputs["user_id"] = $user_id;
-//debug_dump( $inputs );
+
         $todo = new Todo();
         $todo->fill($inputs);
         $todo->save();

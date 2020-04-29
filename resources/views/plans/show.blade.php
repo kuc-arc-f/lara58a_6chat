@@ -4,9 +4,12 @@
 @section('content')
 
 <div class="panel panel-default">
+    <br />
     <div class="panel-heading">
+        {{ link_to_route('plans.index', '戻る', null, ['class' => 'btn btn-outline-primary'] ) }}
         <br />
-        <h1>{{ $plan->date }}</h1>
+        <br />
+        <h3>{{ $plan->date }}</h3>
     </div>
     <hr />
     <div class="panel-body">
@@ -28,8 +31,11 @@
     </div>
     <hr />
     <div class="panel-footer">
+        <!--
         <br />
-        {{ link_to_route('plans.index', '戻る') }}
+        {{ link_to_route('plans.index', '戻る') }}            
+        -->
+
     </div>
 </div>
 

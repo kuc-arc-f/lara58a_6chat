@@ -5,8 +5,10 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
+        <h3 class="mt-2">タスク一覧 </h3>
+        <!--  -->
         <BR />
-        <h1>タスク一覧 </h1>
+        {{ link_to_route('tasks.create', 'Create' ,null, ['class' => 'btn btn-primary mb-2']) }}
         <BR />
     </div>
     <div class="panel-body">
@@ -28,12 +30,12 @@
                         </td>
                         <td class="table-text">
                             {{ link_to_route('tasks.edit', '編集'
-                            , $task->id, ['class' => 'btn btn-sm btn-default']) }}
+                            , $task->id, ['class' => 'btn btn-sm btn btn-outline-primary']) }}
                         </td>
                         <td class="table-text">
                             {{ Form::open(['route' => ['tasks.destroy', $task->id], 'method' => 'delete']) }}
                                 {{ Form::hidden('id', $task->id) }}
-                                {{ Form::submit('削除', ['class' => 'btn btn-sm btn-default']) }}
+                                {{ Form::submit('削除', ['class' => 'btn btn-sm btn btn-outline-primary']) }}
                             {{ Form::close() }}
                         </td>
                     </tr>
@@ -46,8 +48,6 @@
 
         <br />
         <hr />
-        {{ link_to_route('tasks.create', 'Create' ,null, ['class' => 'btn btn-primary']) }}
-        <br />
         <br />
         @include('element.page_info',
         [

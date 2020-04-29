@@ -32,23 +32,46 @@ class ChatsController extends Controller
     {
         $user = Auth::user();
         $user_id = Auth::id();
-        /*
-        $chats = Chat::select([
-            "chats.id",
-            "chats.name",
-            "chat_members.user_id"
-        ])
-        ->leftJoin('chat_members',
-            'chats.id','=','chat_members.chat_id'
-        )
-        ->where('chat_members.user_id', $user_id)
-        ->orderBy('id', 'desc')->paginate(10 );        
-        */
-        $chats = Chat::orderBy('id', 'desc')->paginate(10 );
-//debug_dump($chats->toArray() );
-        return view('chats/index')->with(compact('chats', 'user'));
+        $chat_members = $this->get_chat_members($user_id);
+        $chats = Chat::orderBy('id', 'desc')->paginate(20 );
+//debug_dump($chat_members->toArray() );
+//exit();
+        return view('chats/index')->with(compact('chats', 'user' ,'chat_members'));
     }
     /**************************************
+     *
+     **************************************/
+    public function search_index(Request $request){
+        $user = Auth::user();
+        $user_id = Auth::id();        
+        $data = $request->all();
+        $chat_members = $this->get_chat_members($user_id);
+        $chats = Chat::orderBy('id', 'desc')
+        ->where("name", "like", "%" . $data["name"] . "%" )
+        ->paginate($this->TBL_LIMIT);
+//        ->limit($this->TBL_LIMIT)
+//debug_dump($chats);
+        $params = $data;
+        return view('chats/index')->with(compact(
+            'chats', 'user' ,'chat_members','params'
+        ));
+    }
+    /**************************************
+     *
+     **************************************/
+    private function get_chat_members($user_id){
+        $chat_members = ChatMember::select([
+            "chats.id",
+            "chat_members.user_id"
+        ])
+        ->join('chats',
+            'chat_members.chat_id' ,'=', 'chats.id'
+        )
+        ->where('chat_members.user_id', $user_id)
+        ->get();
+        return  $chat_members;
+    }
+     /**************************************
      *
      **************************************/
     public function create()
@@ -88,7 +111,7 @@ class ChatsController extends Controller
             ->first(); 
         if(empty($chat_member)){
             session()->flash('flash_message', 'このチャットに、参加していません。');
-            return redirect()->route('chats.index');
+            return redirect('/chats/next_join?cid=' . $id );
         }
 
         $chat_posts = ChatPost::where('chat_id', $id)
@@ -100,7 +123,20 @@ class ChatsController extends Controller
             "chat", "user_id", "id", "chat_member",
              "chat_members","user", "chat_posts", "chat_posts_json"
         ) );
-    }    
+    }  
+    /**************************************
+     *
+     **************************************/
+    public function next_join(){
+        $chat_id = "";
+        $chat = [];
+        if (isset($_GET['cid'])){
+            $chat_id = $_GET['cid'];
+            $chat = Chat::find( $chat_id );
+//var_dump($_GET['cid'] );
+            return view('chats/next_join')->with(compact("chat_id" ,"chat") );
+        }
+    }
     /**************************************
      *
      **************************************/
@@ -150,7 +186,8 @@ class ChatsController extends Controller
      *
      **************************************/
     public function add_member(){
-        $user_id = Auth::id();        
+        $user_id = Auth::id();   
+        $chat_id = "";     
         if (isset($_GET['cid'])) {
             //valid
             $checkMember = $this->get_memberExist($_GET['cid'], $user_id);
@@ -169,7 +206,8 @@ class ChatsController extends Controller
             $chat_member->save();
         }
         session()->flash('flash_message', 'チャット参加登録が完了しました');
-        return redirect()->route('chats.index');
+//        return redirect()->route('chats.index');
+        return redirect('/chats/' . $chat_id );
     }
     /**************************************
      * chat情報の表示
@@ -243,6 +281,26 @@ class ChatsController extends Controller
                     ]);                
                 exit();           
         }
+    }
+    /**************************************
+     * 退会の処理
+     **************************************/
+    public function delete_member(){
+        $user_id = Auth::id();
+        if (isset($_GET['cid'])) {
+//var_dump($_GET['cid']);
+            $chat_member = ChatMember::where('chat_id', $_GET['cid'] )
+            ->where('user_id', $user_id)
+            ->first();
+            if(!empty($chat_member)){
+//debug_dump( $chat_member->toArray() );
+                $member = ChatMember::find($chat_member->id);
+                $member->delete();
+            }
+            session()->flash('flash_message', '退会が完了しました');
+            return redirect()->route('chats.index');            
+        }
+//exit();
     }
     /**************************************
      *

@@ -7,7 +7,10 @@
 <div class="panel panel-default">
     <br />
     <div class="panel-heading">
-        <h1>新規作成</h1>
+        {{ link_to_route('plans.index', '戻る',null, ['class' => 'btn btn-outline-primary'] ) }}
+        <br />
+        <br />
+        <h3>新規作成</h3>
     </div>
     <hr />
     @if (count($errors) > 0)
@@ -58,7 +61,7 @@
     <hr />
     <br />
     <div class="panel-footer">
-        {{ link_to_route('plans.index', '戻る',null, ['class' => 'btn btn-outline-primary'] ) }}
+        
     </div>
 </div>
 

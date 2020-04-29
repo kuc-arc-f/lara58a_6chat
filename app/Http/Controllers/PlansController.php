@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Plan;
 use App\User;
+use App\Libs\AppConst;
 
 use Carbon\Carbon;
 //
@@ -19,14 +20,16 @@ class PlansController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+//        $this->middleware('auth');
     }    
     /**************************************
      *
      **************************************/
     public function index(Request $request)
     {   
-        $user_id = Auth::id();
+//        $user_id = Auth::id();
+        $const = new AppConst;
+        $user_id  = $this->get_guestUserId( $const->guest_user_mail );
 
         $dt = new Carbon(self::getYm_firstday());
         $startDt = $dt->format('Y-m-d');
@@ -78,7 +81,9 @@ class PlansController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        $user_id = Auth::id();
+//        $user_id = Auth::id();
+        $const = new AppConst;
+        $user_id  = $this->get_guestUserId( $const->guest_user_mail );        
         if(empty($user_id)){
             session()->flash('flash_message', 'ユーザー情報の取得に失敗しました。');
             return redirect()->route('plans.index');
