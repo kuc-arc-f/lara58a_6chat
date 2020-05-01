@@ -33,7 +33,9 @@ exit();
 	public function valid_go(){
 //var_dump("#valid_google");
 		$user = null;
-		return view('users/valid_go')->with('user', $user );
+		$SUPER_USER_MAIL = env('SUPER_USER_MAIL', '');
+//		return view('users/valid_go')->with('user', $user );
+		return view('users/valid_go')->with(compact('user', 'SUPER_USER_MAIL'));
 	}	
 	/**************************************
 	 *

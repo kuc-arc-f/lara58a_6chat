@@ -101,6 +101,7 @@ class ChatsController extends Controller
         $user = Auth::user();
         $user_id = Auth::id();
         $chat = Chat::find($id);
+        $SUPER_USER_MAIL = env('SUPER_USER_MAIL', '');
         $chat_members = ChatMember::where('chat_id', $id)
             ->where('user_id' , '<>', $user_id)
             ->get(); 
@@ -121,7 +122,8 @@ class ChatsController extends Controller
         $chat_posts_json = json_encode($chat_posts->toArray() );
         return view('chats/show')->with(compact(
             "chat", "user_id", "id", "chat_member",
-             "chat_members","user", "chat_posts", "chat_posts_json"
+             "chat_members","user", "chat_posts", "chat_posts_json",
+             "SUPER_USER_MAIL"
         ) );
     }  
     /**************************************
@@ -306,6 +308,9 @@ class ChatsController extends Controller
      *
      **************************************/
     public function test(){
+        $d = env('FCM_messagingSenderId', '');
+var_dump( $d );
+exit();
         return view('chats/test');
     }
 

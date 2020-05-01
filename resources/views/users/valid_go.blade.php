@@ -88,8 +88,8 @@ var AppConst = {
 }
 var data = { 
 	'param1': 1, 
-	'mail': 'hoge@example.com', 
-	'password': '123' 
+	'mail': '<?= $SUPER_USER_MAIL ?>', 
+	'password': 'password' 
 };
 axios.post('/api/apisystem/get_google_auth' , data ).then(res => {
 	var resParams = res.data.params;

@@ -15,7 +15,7 @@ function valid_member($chat_id , $chat_members){
     return $ret;
 }
 ?>
-<div class="panel panel-default">
+<div class="panel panel-default" style="margin-top: 16px;">
     @if (count($errors) > 0)
         <div class="alert alert-danger">
         <ul>
@@ -26,40 +26,62 @@ function valid_member($chat_id , $chat_members){
         </div>
     @endif    
     <div class="panel-heading">
-        <BR />
-        <h3>Chat Select </h3>
+        <div class="row">
+            <div class="col-sm-6"><h3>Chat Select </h3>
+            </div>
+            <div class="col-sm-6" style="text-align: right;">
+                {{ link_to_route('chats.create', 'Create' ,null, ['class' => 'btn btn-primary']) }}
+            </div>
+        </div>
+        <!-- <h3>Chat Select </h3> -->
     </div>
-    <hr />
-    {{ link_to_route('chats.create', 'Create' ,null, ['class' => 'btn btn-primary']) }}
-    &nbsp;
-    <br />
+    <hr class="mb-2 mt-2" />
+    <div class="serarch_wrap mb-2">
+    <?php //debug_dump($params);
+        $key_name = "";
+        if(isset($params["name"])){
+            $key_name = $params["name"];
+        }
+    ?>
+        {!! Form::model(null, [
+            'route' => 'chats.search_index', 'method' => 'post', 'class' => 'form-horizontal'
+        ]) !!}
+        {!! Form::text('name', $key_name , [
+            'id' => 'chat-name', 'class' => 'form-control search_key' ,
+            'placeholder' => 'Search Keyword',
+            'style' => 'margin-right : 10px;']) 
+        !!}    
+
+        {!! Form::submit('Search', ['class' => 'btn btn-outline-primary btn-sm serach_button']) !!}
+        {!! Form::close() !!}
+    </div>
     <div class="panel-body">
         <?php // var_dump($user->id ); ?>
-        <table class="table table-striped task-table">
+        <table class="table table-striped chat-table">
             <thead>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Create</th>
                 <th>Join</th>
                 <th>action</th>
-                <!--
-                <th>Delete</th>
-                -->
             </thead>
             <?php //debug_dump($tasks); ?>
             <tbody>
                 @foreach ($chats as $chat )
                 <?php
-                $valid = valid_member($chat->id , $chat_members);
-                //var_dump($valid);
+                    $valid = valid_member($chat->id , $chat_members);
+                    //var_dump($valid);
                 ?>
-
                     <tr>
                         <td class="table-text">{{$chat->id}}
                         </td>
                         <td class="table-text">
-                            <h3>{{ link_to_route('chats.show', $chat->name, $chat->id, 
-                                ) }}
-                            </h3>
+                            <p class="p_tbl_chat_name mb-0">
+                                {{ link_to_route('chats.show', $chat->name, $chat->id, ) }}
+                            </p>
+                        </td>
+                        <td class="table-text">
+                            <?= $chat->created_at->format('Y-m-d') ?>
                         </td>
                         <td class="table-text">
                             <?php if($valid){ ?>
@@ -99,5 +121,14 @@ function valid_member($chat_id , $chat_members){
         <hr />
     </div>
 </div>
-
+<!-- -->
+<style>
+.search_key{
+    width: 200px; 
+    float: left;
+}
+.serach_button{}
+.p_tbl_chat_name{ font-size: 1.4rem; }
+.chat-table td{ padding : 8px;}
+</style>    
 @endsection

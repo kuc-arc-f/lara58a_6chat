@@ -26,21 +26,16 @@ class ApiSystemController extends Controller
      **************************************/
     public function __construct(){
         $this->TBL_LIMIT = 1000;
-        $this->ADMIN_USER_MAIL = [
-            1 => "hoge1@example.com",
-            2 => "hoge2@example.com",
-            3 => "hoge3@example.com",
-        ];
-        $this->SUPER_USER_MAIL = "hoge@example.com";
+        $this->SUPER_USER_MAIL = env('SUPER_USER_MAIL', '');
         //FCM
-        $this->FCM_messagingSenderId = "";
-        $this->FCM_PublicVapidKey = "";
-        $this->FCM_SERVER_KEY = "";
+        $this->FCM_messagingSenderId = env('FCM_messagingSenderId', '');
+        $this->FCM_PublicVapidKey = env('FCM_PublicVapidKey', '');
+        $this->FCM_SERVER_KEY = env('FCM_SERVER_KEY', '');
         //google_auth
-        $this->apiKey = " ";
-        $this->authDomain = " ";
-        $this->projectId = " ";
-        $this->appId = " ";        
+        $this->apiKey = env('GOOGLE_AUTH_apiKey', '');
+        $this->authDomain = env('GOOGLE_AUTH_authDomain', '');
+        $this->projectId = env('GOOGLE_AUTH_projectId', '');
+        $this->appId = env('GOOGLE_AUTH_appId', '');
     }
     /**************************************
      * １回/ 日　に、削除処理
@@ -335,8 +330,7 @@ class ApiSystemController extends Controller
             "data" => $data,
         ];
         return response()->json( $ret );
-    }
-
+    }    
     /**************************************
      * delete -mdats- files
      **************************************/   

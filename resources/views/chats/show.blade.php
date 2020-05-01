@@ -6,6 +6,7 @@
 <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-messaging.js"></script>
 <script src="/js/chat_show.js?A3"></script>
+<script src="/js/fcm_init.js?B1"></script>
 
 <!-- -->
 <div id="app">
@@ -319,6 +320,36 @@ var AppConst = {
 	"PublicVapidKey" : "",
 	"FCM_SERVER_KEY" : "",
 }
+var data = { 
+	'param1': 1, 
+	'mail': '<?= $SUPER_USER_MAIL ?>', 
+	'password': 'password' 
+};
+axios.post('/api/apisystem/get_fcm_init' , data ).then(res => {
+	var resParams = res.data.params;
+	var params ={
+		"messagingSenderId" : resParams.FCM_messagingSenderId,
+		"PublicVapidKey" : resParams.FCM_PublicVapidKey,
+		"FCM_SERVER_KEY" : resParams.FCM_SERVER_KEY
+	};
+	AppConst = params;
+	fcm_init_proc();
+//console.log( AppConst );
+});
+
+/**********************************************
+ *
+ *********************************************/
+ function fcm_init_proc(){
+	firebase.initializeApp({
+		'messagingSenderId': AppConst.messagingSenderId
+	});
+	messaging = firebase.messaging();
+	messaging.usePublicVapidKey(AppConst.PublicVapidKey );
+	FCM_SERVER_KEY = AppConst.FCM_SERVER_KEY ;
+	fcm_get_token(CHAT_MEMBER_ID);
+	fcm_onMessage();
+}
 /**********************************************
  *
  *********************************************/    
@@ -348,9 +379,6 @@ function fcm_onMessage(){
 		console.log(notify.body );
 	});
 }
-
 </script>
-<!-- bundle.js -->
-<script src="/js/fcm_init.js?A3"></script>
 
 @endsection

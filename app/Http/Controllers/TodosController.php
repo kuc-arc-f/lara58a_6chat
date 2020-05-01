@@ -14,6 +14,7 @@ class TodosController extends Controller
     //
     public function __construct()
     {
+        $this->TBL_LIMIT = 500;
 //        $this->middleware('auth');
     }
     /**************************************
@@ -23,7 +24,6 @@ class TodosController extends Controller
     {   
         $const = new AppConst;
         $user_id  = $this->get_guestUserId( $const->guest_user_mail );
-//debug_dump( $user_id );
         $complete = 0;
         $inputs = $request->all();
         if(isset($inputs["complete"]) ){
@@ -32,9 +32,31 @@ class TodosController extends Controller
         $todos = Todo::orderBy('id', 'desc')
         ->where("complete" , $complete)
         ->where("user_id" , $user_id )
-        ->get();
+        ->paginate(20 );
+//        ->get();
         return view('todos/index')->with(compact('todos' ,'complete') );
     }    
+    /**************************************
+     *
+     **************************************/
+    public function search_index(Request $request){
+        $const = new AppConst;
+        $user_id  = $this->get_guestUserId( $const->guest_user_mail );
+        $data = $request->all();  
+        $params = $data;   
+        if(isset($data["complete"]) ){
+            $complete = $data["complete"];
+        }
+        $todos = Todo::orderBy('id', 'desc')
+        ->where("title", "like", "%" . $data["name"] . "%" )
+        ->where("complete" , $complete)
+        ->where("user_id" , $user_id )
+        ->paginate($this->TBL_LIMIT);
+//        ->get();        
+//debug_dump( $data );        
+//exit();
+        return view('todos/index')->with(compact('todos' ,'complete' ,'params') );
+    }
     /**************************************
      *
      **************************************/
