@@ -34,6 +34,22 @@ php artisan serve
 
 https://knaka0209.hatenablog.com/entry/lara58_13chat
 
+* 設定の手順
+
+ https://knaka0209.hatenablog.com/entry/lara58_25chat
+
+* 更新、チャット機能のレイアウト修正
+
+https://knaka0209.hatenablog.com/entry/lara58_21chat
+
+* 更新、チャット機能に CSV出力を追加
+
+https://knaka0209.hatenablog.com/entry/lara58_22chat
+
+* 更新、チャット一覧に、検索機能追加等
+
+https://knaka0209.hatenablog.com/entry/lara58_24chat
+
 ***
 ### version / branch
 
