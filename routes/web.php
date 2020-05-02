@@ -98,6 +98,7 @@ Route::prefix('api')->group(function(){
 //    Route::resource('apitasks', 'ApiTasksController' );    
     //chats
     Route::get('/apichats/get_post', 'ApiChatsController@get_post');
+    Route::get('/apichats/get_notify_menu', 'ApiChatsController@get_notify_menu');
     Route::post('/apichats/get_send_members', 'ApiChatsController@get_send_members');
     Route::post('/apichats/update_post_client', 'ApiChatsController@update_post_client');
     Route::post('/apichats/update_token', 'ApiChatsController@update_token');

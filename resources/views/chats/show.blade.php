@@ -15,18 +15,28 @@
 		<div class="panel-body">
 			{{ link_to_route('chats.index', '戻る', null, ["class" => "btn btn-outline-primary"]) }}
 			<br />
-			<br />
-			<h2>Chat: {{$chat->name}}</h2>
+			<!-- <br />
+			 -->
+			<div class="row" style="margin-top: 10px;">
+				<div class="col-sm-6">
+					<h3>Chat: {{$chat->name}}</h3>
+				</div>
+				<div class="col-sm-6" style="text-align: right;">
+					@include('element.chat_notify',[]) 
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-sm-6" style="text-align: left;">
 					<p>chat-ID: {{$chat->id}}  
 						&nbsp;<a class="btn btn-outline-primary btn-sm"
-						 href="/chats/info_chat?id={{$chat->id}}">Chat info</a>
+						 href="/chats/info_chat?id={{$chat->id}}" 
+						 data-toggle="tooltip" title="参加メンバーなど表示できます">Chat info</a>
 					</p>					
 				</div>
 				<div class="col-sm-6" style="text-align: right;">
 					<a href="/chats/csv_get?chat_id={{$chat->id}}"
-					class="btn btn-outline-primary btn-sm">CSV 出力</a>
+					class="btn btn-outline-primary btn-sm" 
+					data-toggle="tooltip" title="CSVファイルの出力">CSV 出力</a>
 				</div>
 			</div>
 			<hr class="mt-0"/>
@@ -148,20 +158,17 @@
 	border-bottom: 1px solid #000;
 }
 .post_item .col_name{
-	/* max-width : 200px;
-	width : 20%; */
+	/* max-width : 200px; */
 	padding : 10px;
 	width : 180px;
 }
 .li_p_box{
-	/* margin-left : 52px; */
 	padding : 10px;
 }
 .time_box{
 	margin-left : 52px;
 	height: 62px;
 	color: gray;
-/* font-size: 16px; */	
 	font-size: 0.875rem;
 }
 .hr_post_bottom{
@@ -172,9 +179,11 @@
 }
 /* input */
 #send_button{	margin : 30px 10px;	}
-/*
-#send_text{		margin : 20px 0px; }
-*/
+/* notify_menu */
+.notify_menu_wrap .dropdown-item a{
+	/* color: gray; */
+	font-size: 0.875rem;
+}
 </style>
 <!-- -->
 <div class="panel panel-default">
@@ -225,6 +234,7 @@ new Vue({
 		modal_item : [],
 		delete_ok : 0,
 		input_expand_none: 0,
+		notify_items : [],
 	},
 	created:function(){
 		this.get_posts(USER_ID);
@@ -255,7 +265,10 @@ new Vue({
 			if(item.user_id == USER_ID){
 				this.delete_ok = 1;
 			}
-//console.log(item.user_id);
+		},
+		move_chat: function(chat_id) {
+//			console.log(chat_id);
+			location.href= '/chats/' + chat_id;
 		},
 		get_modal_data(id, items ) {
 			var ret = null;
@@ -285,7 +298,20 @@ new Vue({
 //console.log( new_items  )
 				this.tasks  = new_items;
 				this.timer_start();
+				this.get_notify_menu(USER_ID);
 			})            
+		},
+		get_notify_menu(USER_ID) {
+			axios.get('/api/apichats/get_notify_menu?user_id=' +USER_ID)
+			.then(res =>  {
+				var items = res.data;
+				var new_items = [];
+				items.forEach(function(item){
+					new_items.push(item);
+				});
+				this.notify_items = new_items;
+console.log( this.notify_items )
+			})
 		},
 		addItem() {
 			console.log(this.message );

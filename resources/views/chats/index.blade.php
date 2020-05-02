@@ -90,11 +90,11 @@ function valid_member($chat_id , $chat_members){
                         </td>
                         <td class="table-text">
                             <?php if($valid){ ?>
-                                <a href="chats/delete_member?cid={{$chat->id}}"
+                                <a href="/chats/delete_member?cid={{$chat->id}}"
                                     class="btn btn-outline-danger btn-sm">退会
                                 </a>
                             <?php }else{ ?>
-                                <a href="chats/add_member?cid={{$chat->id}}"
+                                <a href="/chats/add_member?cid={{$chat->id}}"
                                     class="btn btn-outline-primary btn-sm">参加
                                </a>
                             <?php }?>

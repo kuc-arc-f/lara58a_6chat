@@ -63,7 +63,6 @@ class ApiChatsController extends Controller
 			foreach($chat_posts as $chat_post){
 				$dt = new Carbon($chat_post["created_at"]);
 				$chat_post["date_str"] = $dt->format('m-d H:i');
-//				$body_org = $chat_post["body"];
 				$body = $chat_post["body"];
 				$body = preg_replace('/(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/', 
 						'<A href="\\1\\2">\\1\\2</A>', $body);
@@ -73,10 +72,45 @@ class ApiChatsController extends Controller
 			}
 //debug_dump($dt->format('m-d H:i') );
 //debug_dump($post_items );
-//exit();
 			return response()->json($post_items );
 		}
 	}  
+	/**************************************
+	* 通知ドロップの取得
+	 **************************************/	
+	public function get_notify_menu(){
+		if (isset($_GET['user_id'])) {
+			$chat_posts = ChatPost::select([
+				'chat_posts.id',
+				'chat_posts.chat_id',
+				'chat_posts.user_id',
+				'chat_posts.title',
+				'chat_posts.body',
+				'chat_posts.created_at',
+				'users.name as user_name',
+				'chats.name as chat_name',
+				])
+				->join('users','users.id','=','chat_posts.user_id')
+				->join('chats','chats.id','=','chat_posts.chat_id')
+				->where('chat_posts.user_id' , '<>', $_GET['user_id'] )
+				->orderBy('chat_posts.id', 'desc')
+				->skip(0)->take( 10 )
+				->get();
+//debug_dump($chat_posts );
+			$chat_posts = $chat_posts->toArray();
+			$post_items = [];
+			foreach($chat_posts as $chat_post){
+				$dt = new Carbon($chat_post["created_at"]);
+				$chat_post["date_str"] = $dt->format('m-d H:i');
+				$body = $chat_post["body"];
+				$chat_post["body_org"] = $body;
+				$chat_post["body"] = mb_substr( $body , 0, 20 );
+				$post_items[] = $chat_post;
+			}
+			return response()->json($post_items );
+		}
+	}
+
 	/**************************************
 	 *
 	 **************************************/ 
