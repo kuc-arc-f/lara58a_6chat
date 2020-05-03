@@ -92,11 +92,24 @@ class ApiChatsController extends Controller
 				])
 				->join('users','users.id','=','chat_posts.user_id')
 				->join('chats','chats.id','=','chat_posts.chat_id')
+				->join('chat_members','chat_members.chat_id','=','chat_posts.chat_id')
 				->where('chat_posts.user_id' , '<>', $_GET['user_id'] )
+				->where('chat_members.user_id' ,  $_GET['user_id'] )
+				->groupBy([
+					'chat_posts.id',
+					'chat_posts.chat_id',
+					'chat_posts.user_id',
+					'chat_posts.title',
+					'chat_posts.body',
+					'chat_posts.created_at',
+					'users.name',
+					'chats.name',
+				])
 				->orderBy('chat_posts.id', 'desc')
 				->skip(0)->take( 10 )
 				->get();
 //debug_dump($chat_posts );
+//exit();
 			$chat_posts = $chat_posts->toArray();
 			$post_items = [];
 			foreach($chat_posts as $chat_post){
@@ -104,13 +117,12 @@ class ApiChatsController extends Controller
 				$chat_post["date_str"] = $dt->format('m-d H:i');
 				$body = $chat_post["body"];
 				$chat_post["body_org"] = $body;
-				$chat_post["body"] = mb_substr( $body , 0, 20 );
+				$chat_post["body"] = mb_substr( $body , 0, 16 );
 				$post_items[] = $chat_post;
 			}
 			return response()->json($post_items );
 		}
 	}
-
 	/**************************************
 	 *
 	 **************************************/ 

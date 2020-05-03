@@ -55,12 +55,22 @@ function valid_member($chat_id , $chat_members){
         {!! Form::submit('Search', ['class' => 'btn btn-outline-primary btn-sm serach_button']) !!}
         {!! Form::close() !!}
     </div>
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-6">
+
+            
+        </div>
+        <div class="col-sm-6" style="text-align: right;">
+            @include('element.chat_notify',[]) 
+        </div>
+    </div>  
     <div class="panel-body">
         <?php // var_dump($user->id ); ?>
         <table class="table table-striped chat-table">
             <thead>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Open</th>
                 <th>Create</th>
                 <th>Join</th>
                 <th>action</th>
@@ -81,16 +91,20 @@ function valid_member($chat_id , $chat_members){
                             </p>
                         </td>
                         <td class="table-text">
+                            <a href="/chats/<?= $chat->id ?>"><i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </td>                        
+                        <td class="table-text">
                             <?= $chat->created_at->format('Y-m-d') ?>
                         </td>
                         <td class="table-text">
                             <?php if($valid){ ?>
-                                <a href="chats/delete_member?cid={{$chat->id}}"
-                                    class="btn btn-outline-danger btn-sm">退会する
+                                <a href="/chats/delete_member?cid={{$chat->id}}"
+                                    class="btn btn-outline-danger btn-sm">退会
                                 </a>
                             <?php }else{ ?>
-                                <a href="chats/add_member?cid={{$chat->id}}"
-                                    class="btn btn-outline-primary btn-sm">参加する
+                                <a href="/chats/add_member?cid={{$chat->id}}"
+                                    class="btn btn-outline-primary btn-sm">参加
                                </a>
                             <?php }?>
                         </td>

@@ -34,27 +34,38 @@ function valid_member($chat_id , $chat_members){
             </div>
         </div>
         <!-- <h3>Chat Select </h3> -->
-    </div>
+    </div>        
     <hr class="mb-2 mt-2" />
+    <!--
     <div class="serarch_wrap mb-2">
-    <?php //debug_dump($params);
-        $key_name = "";
-        if(isset($params["name"])){
-            $key_name = $params["name"];
-        }
-    ?>
-        {!! Form::model(null, [
-            'route' => 'chats.search_index', 'method' => 'post', 'class' => 'form-horizontal'
-        ]) !!}
-        {!! Form::text('name', $key_name , [
-            'id' => 'chat-name', 'class' => 'form-control search_key' ,
-            'placeholder' => 'Search Keyword',
-            'style' => 'margin-right : 10px;']) 
-        !!}    
-
-        {!! Form::submit('Search', ['class' => 'btn btn-outline-primary btn-sm serach_button']) !!}
-        {!! Form::close() !!}
     </div>
+    -->
+    <div id="app">
+        <div class="row" style="margin-top: 10px;">            
+            <?php //debug_dump($params);
+            $key_name = "";
+            if(isset($params["name"])){
+                $key_name = $params["name"];
+            }
+            ?>        
+            <div class="col-sm-6">
+                {!! Form::model(null, [
+                    'route' => 'chats.search_index', 'method' => 'post', 'class' => 'form-horizontal'
+                ]) !!}
+                {!! Form::text('name', $key_name , [
+                    'id' => 'chat-name', 'class' => 'form-control search_key' ,
+                    'placeholder' => 'Search Keyword',
+                    'style' => 'margin-right : 10px;']) 
+                !!}    
+        
+                {!! Form::submit('Search', ['class' => 'btn btn-outline-primary btn-sm serach_button']) !!}
+                {!! Form::close() !!}
+            </div>
+            <div class="col-sm-6" style="text-align: center;">
+                @include('element.chat_notify',[]) 
+            </div>
+        </div>  
+    </div>    
     <div class="panel-body">
         <?php // var_dump($user->id ); ?>
         <table class="table table-striped chat-table">
@@ -121,9 +132,15 @@ function valid_member($chat_id , $chat_members){
         <br />
         <!-- paginater -->
         {{ $chats->links() }}
-
         <br />
         <hr />
+    </div><!-- end_panel-body -->
+    <div class="panel-footer">
+        @include('element.page_info',
+        [
+            'git_url' => 'https://github.com/kuc-arc-f/lara58a_6chat',
+            'blog_url' => 'https://knaka0209.hatenablog.com/entry/lara58_13chat'
+        ])        
     </div>
 </div>
 <!-- -->
@@ -135,5 +152,40 @@ function valid_member($chat_id , $chat_members){
 .serach_button{}
 .p_tbl_chat_name{ font-size: 1.4rem; }
 .chat-table td{ padding : 8px;}
-</style>    
+</style>
+<!-- -->
+<script>
+const USER_ID  ="{{$user_id}}";
+//
+new Vue({
+	el: '#app',
+	data: {
+//		message: '',
+		notify_items : [],
+	},
+	created:function(){
+		this.get_notify_menu(USER_ID);
+	},
+	methods: {
+		get_notify_menu(USER_ID) {
+			axios.get('/api/apichats/get_notify_menu?user_id=' +USER_ID)
+			.then(res =>  {
+				var items = res.data;
+				var new_items = [];
+				items.forEach(function(item){
+					new_items.push(item);
+				});
+				this.notify_items = new_items;
+//console.log( this.notify_items )
+			})
+		},
+		move_chat: function(chat_id) {
+//			console.log(chat_id);
+			location.href= '/chats/' + chat_id;
+		},                
+	}
+});
+
+</script>    
+
 @endsection

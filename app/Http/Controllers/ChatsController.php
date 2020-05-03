@@ -36,7 +36,8 @@ class ChatsController extends Controller
         $chats = Chat::orderBy('id', 'desc')->paginate(20 );
 //debug_dump($chat_members->toArray() );
 //exit();
-        return view('chats/index')->with(compact('chats', 'user' ,'chat_members'));
+        return view('chats/index')->with(compact('chats', 'user', 'user_id' ,
+            'chat_members'));
     }
     /**************************************
      *

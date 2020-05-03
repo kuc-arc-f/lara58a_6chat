@@ -21,7 +21,8 @@
 				<div class="col-sm-6">
 					<h3>Chat: {{$chat->name}}</h3>
 				</div>
-				<div class="col-sm-6" style="text-align: right;">
+				<!-- padding-right: 80px; -->
+				<div class="col-sm-6" style="text-align: center; ">
 					@include('element.chat_notify',[]) 
 				</div>
 			</div>
@@ -51,7 +52,9 @@
 						placeholder="please Input" required="required"></textarea>                        
 					</div>
 					<div class="col-sm-6" style="text-align: left;">
-						<button @click="addItem" id="send_button" class="btn btn-primary">Post</button>                        
+						<button @click="addItem" id="send_button" class="btn btn-primary"
+						data-toggle="tooltip" title="send post">Post
+						</button>                        
 					</div>
 				</div>
 			</div>
@@ -182,8 +185,10 @@
 /* notify_menu */
 .notify_menu_wrap .dropdown-item a{
 	/* color: gray; */
+	padding : 0px;
 	font-size: 0.875rem;
 }
+
 </style>
 <!-- -->
 <div class="panel panel-default">
