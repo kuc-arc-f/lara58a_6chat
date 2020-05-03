@@ -50,11 +50,11 @@ class ChatsController extends Controller
         $chats = Chat::orderBy('id', 'desc')
         ->where("name", "like", "%" . $data["name"] . "%" )
         ->paginate($this->TBL_LIMIT);
-//        ->limit($this->TBL_LIMIT)
 //debug_dump($chats);
         $params = $data;
         return view('chats/index')->with(compact(
-            'chats', 'user' ,'chat_members','params'
+            'chats', 'user' ,'chat_members','params',
+            'user_id'
         ));
     }
     /**************************************
