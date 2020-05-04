@@ -11,24 +11,24 @@
 <!-- -->
 <div id="app">
 	<div class="panel panel-default">
-		<br />
 		<div class="panel-body">
-			{{ link_to_route('chats.index', '戻る', null, ["class" => "btn btn-outline-primary"]) }}
+			{{ link_to_route('chats.index', '戻る', null, 
+			["class" => "btn btn-outline-primary mt-2"]) }}
 			<br />
-			<!-- <br />
-			 -->
 			<div class="row" style="margin-top: 10px;">
 				<div class="col-sm-6">
-					<h3>Chat: {{$chat->name}}</h3>
+					<!-- Chat: -->
+					<h3>{{$chat->name}}</h3>
 				</div>
 				<!-- padding-right: 80px; -->
 				<div class="col-sm-6" style="text-align: center; ">
 					@include('element.chat_notify',[]) 
 				</div>
 			</div>
+			<hr class="mt-0 mb-2"/>
 			<div class="row">
 				<div class="col-sm-6" style="text-align: left;">
-					<p>chat-ID: {{$chat->id}}  
+					<p class="mb-2">chat-ID: {{$chat->id}}  
 						&nbsp;<a class="btn btn-outline-primary btn-sm"
 						 href="/chats/info_chat?id={{$chat->id}}" 
 						 data-toggle="tooltip" title="参加メンバーなど表示できます">Chat info</a>
@@ -40,13 +40,14 @@
 					data-toggle="tooltip" title="CSVファイルの出力">CSV 出力</a>
 				</div>
 			</div>
-			<hr class="mt-0"/>
+			<hr class="mt-0 mb-2"/>
 			<!-- input_area -->
 			<div class="input_area_wrap" style="text-align: center;">
 				<div class="row">
 					<div class="col-sm-6" style="text-align: right;">
 						<!--  mb-0 -->
 						<textarea v-model="message" class="form-control mt-0"
+						style="padding :12px; 0px;"
 						rows="3" cols="40" id="send_text"
 						v-on:click="input_active();"
 						placeholder="please Input" required="required"></textarea>                        
@@ -58,8 +59,7 @@
 					</div>
 				</div>
 			</div>
-			<hr class="mt-1 mb-2">	
-			<!--  mt-1  -->	
+			<hr class="mt-2 mb-2">	
 			<!-- post-list -->
 			<ul class="ul_post_box" style="list-style: none;">
 				<li v-for="task in tasks" v-bind:key="task.id">
@@ -67,33 +67,34 @@
 						v-on:click="open_modal(task.id)">
 						<div class="col_name">
 							<div class="post_user_wrap">
-								<span style="font-size: 42px; float: left;" class="pl-2">
+								<!--  class="pl-2" -->
+								<span style="font-size: 42px; float: left; padding: 0px;">
 									<div v-if="task.is_other">
 										<i class="far fa-meh"></i>	
 									</div>
-									<!-- style="color: #424242;" -->
-									<div v-else style="color: #616161;">
-										<i class="fas fa-meh"></i>
+									<div v-else style="color: #616161;  padding: 0px;">
+										<i class="fas fa-meh" style="margin: 0px;"></i>
 									</div>
 								</span>
 								<div class="time_box pl-1" >
-									<p class="mb-0">@{{ task.user_name }}:<br /> 
-										@{{ task.date_str }}<br />
-										ID: @{{ task.id }}
+									<p class="mb-0">
+										@{{ task.user_name }}:<br /> 
+										@{{ task.date_str }}
+
+										<!-- ID: @{{ task.id }} -->
 									</p>
 								</div>
 							</div>
 						</div>
-						<!-- style="width : 80%;" -->
 						<div class="col_body">
 							<p class="li_p_box mb-0" v-html="task.body">
 							</p>							 
 						</div>
 					<div>
-				
 				</li>
-				
 			</ul>
+			<hr />
+			{{ link_to_route('chats.index', '戻る', null, ["class" => "btn btn-outline-primary"]) }}
 		</div>
 
 		<!-- -->    
@@ -161,8 +162,9 @@
 	border-bottom: 1px solid #000;
 }
 .post_item .col_name{
-	/* max-width : 200px; */
-	padding : 10px;
+	/* max-width : 200px; 
+	padding : 10px; */
+	padding : 0px 8px;
 	width : 180px;
 }
 .li_p_box{
@@ -170,7 +172,10 @@
 }
 .time_box{
 	margin-left : 52px;
-	height: 62px;
+	/* height: 62px;
+	height: 42px;
+	 */
+	padding: 8px;
 	color: gray;
 	font-size: 0.875rem;
 }
