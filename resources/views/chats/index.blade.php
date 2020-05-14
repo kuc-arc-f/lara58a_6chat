@@ -143,7 +143,7 @@ function valid_member($chat_id , $chat_members){
                             <div style="float :left; margin-right :10px">
                                 <?php if($user->id == $chat->user_id){ ?>
                                     <!-- class="btn btn-outline-primary btn-sm" -->
-                                    <a href="http://localhost:8000/chats/<?= $chat->id ?>/edit"
+                                    <a href="/chats/<?= $chat->id ?>/edit"
                                         data-toggle="tooltip" title="edit chat">
                                     <i class="far fa-edit"></i></a>
                                 <?php } ?>
