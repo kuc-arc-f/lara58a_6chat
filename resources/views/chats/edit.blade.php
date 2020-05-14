@@ -30,7 +30,6 @@
                             'class' => 'form-control']) !!}
                     </div>
                 </div>            
-
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-6">
                         {!! Form::button('<i class="fa fa-save"></i> 保存', 
@@ -38,6 +37,16 @@
                     </div>
                 </div>
             {!! Form::close() !!}
+            <hr />
+            <!-- delete -->
+            <div class="form-group">
+                {{ Form::open(['route' => ['chats.destroy', $chat->id], 'method' => 'delete']) }}
+                {{ Form::hidden('id', $chat->id) }}
+                {{ Form::submit('Delete', ['class' => 'btn btn-outline-danger btn-sm']) }}
+                {{ Form::close() }}
+            </div>
+
+
         </div>
         <hr />
         <br />

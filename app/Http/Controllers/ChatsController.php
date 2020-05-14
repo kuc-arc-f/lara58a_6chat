@@ -23,6 +23,7 @@ class ChatsController extends Controller
     {
         $this->middleware('auth');
         $this->TBL_LIMIT = 500;
+        $this->INDEX_TBL_LIMIT = 20;
     }
 
     /**************************************
@@ -30,14 +31,36 @@ class ChatsController extends Controller
      **************************************/
     public function index()
     {
+        $mode_join = 1;
+        $mode_all = 2;
+        $disp_mode = $mode_join;
+        if (isset($_GET['mode'])) {
+            if((int)$_GET['mode'] == $mode_all ){
+                $disp_mode = $mode_all;
+            }
+        }
         $user = Auth::user();
         $user_id = Auth::id();
         $chat_members = $this->get_chat_members($user_id);
-        $chats = Chat::orderBy('id', 'desc')->paginate(20 );
-//debug_dump($chat_members->toArray() );
-//exit();
+        $chats = [];
+        if($disp_mode == $mode_all){
+            $chats = Chat::orderBy('id', 'desc')->paginate($this->INDEX_TBL_LIMIT);
+        }else{
+            $chats = Chat::orderBy('chats.id', 'desc')
+            ->select([
+                'chats.id',
+                'chats.name',
+                'chats.user_id',
+                'chats.created_at',                
+            ])
+            ->join('chat_members','chat_members.chat_id','=','chats.id')
+            ->where('chat_members.user_id', $user_id)
+            ->paginate($this->INDEX_TBL_LIMIT);
+        }
+//debug_dump($chats->toArray() );
+//exit();        
         return view('chats/index')->with(compact('chats', 'user', 'user_id' ,
-            'chat_members'));
+            'chat_members', 'disp_mode'));
     }
     /**************************************
      *
@@ -45,6 +68,9 @@ class ChatsController extends Controller
     public function search_index(Request $request){
         $user = Auth::user();
         $user_id = Auth::id();        
+        $mode_join = 1;
+        $mode_all = 2;
+        $disp_mode = $mode_all;        
         $data = $request->all();
         $chat_members = $this->get_chat_members($user_id);
         $chats = Chat::orderBy('id', 'desc')
@@ -54,7 +80,7 @@ class ChatsController extends Controller
         $params = $data;
         return view('chats/index')->with(compact(
             'chats', 'user' ,'chat_members','params',
-            'user_id'
+            'user_id', 'disp_mode'
         ));
     }
     /**************************************
@@ -88,11 +114,11 @@ class ChatsController extends Controller
         $inputs = $request->all();
         $chat = new Chat();
         $chat["user_id"]= $user_id;
-
         $chat->fill($inputs);
         $chat->save();
         session()->flash('flash_message', '保存が完了しました');
-        return redirect()->route('chats.index');
+//        return redirect()->route('chats.index');
+        return redirect('/chats/add_member?cid=' . $chat->id );
     }
     /**************************************
      *

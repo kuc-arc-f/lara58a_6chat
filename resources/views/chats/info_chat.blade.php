@@ -3,15 +3,16 @@
 
 @section('content')
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<!-- 
-		Information:
-		-->
+	<div class="panel-heading" style="padding-top: 10px;">
+		{{ link_to_route('chats.index', '戻る',  null, ['class' => 'btn btn-outline-primary'] ) }}
+		<br />		
+		<h3>Chat Information :
+		</h3>
 	</div>
 	<div class="panel-body">
 		Name:
-		<p>{{$chat->name}}<br />
-		</p>
+		<h3>{{$chat->name}}<br />
+		</h3>
 		info:
 		<p>{{$chat->content }}
 		</p>
