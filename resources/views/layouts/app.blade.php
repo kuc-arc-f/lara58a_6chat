@@ -36,45 +36,30 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav  mr-auto">
-				<li class="nav-item dropdown">
-					<a href="#" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
-					id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false">develop</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-						<a class="dropdown-item" href="/tasks">Task</a>
-						<a class="dropdown-item" href="/mdats">mDats</a>
-						<a class="dropdown-item" href="/books">Book</a>
-						<a class="dropdown-item" href="/depts">Depts</a>
-						<a class="dropdown-item" href="/members">Members</a>
+				<li class="nav-item active">
+					<a class="nav-link" href="/messages">Messages
 						<!--
-							横仕切り線
-						<div class="dropdown-divider"></div>
+						<span style="font-size: 1.5rem;"
+						 data-toggle="tooltip" title="Message receive">
+							<i class="far fa-envelope"></i>
+						</span>							
 						-->
-					</div><!-- ./dropdown-menu -->
-				</li>                
-				<li class="nav-item dropdown">
-					<a href="#" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
-					id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false">Vue</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-						<a class="dropdown-item" href="/vue_tasks">VueTasks</a>
-						<a class="dropdown-item" href="/vue_todos">VueTodos</a>
-						<a class="dropdown-item" href="/vue_books">VueBooks</a>
-						<a class="dropdown-item" href="/vue_sort_items">VueSortItems</a>
-					</div><!-- ./dropdown-menu -->
-				</li>                
-
+					</a>
+				</li>				
 				<li class="nav-item active">
 					<a class="nav-link" href="/chats">Chats</a>
 				</li>                  
-				<li class="nav-item active">
-					<a class="nav-link" href="/todos">Todos</a>
-				</li>  
-				<li class="nav-item active">
-					<a class="nav-link" href="/plans">Plans</a>
-				</li>                              
 			</ul>
 			<!-- right_nav -->
 			<ul class="navbar-nav">
 				@auth
+					<?php if (isset($messages) && isset($message_display_mode)){ ?>
+						<?php if(count($messages) > 0){ ?>
+							<li class="nav-item">
+								@include('element.message', ['messages' => $messages ])							
+							</li>						
+						<?php } ?>
+					<?php } ?>
 					<?php if (isset($user->name)){ ?>
 					<li class="nav-item dropdown">
 						<a href="#" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"

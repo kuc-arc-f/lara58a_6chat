@@ -30,17 +30,12 @@
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="/">Demo</a>
+		<a class="navbar-brand" href="/home">Demo</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" >
 		<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav  mr-auto">
-				<!--
-				<li class="nav-item active">
-					<a class="nav-link" href="/">Home</a>
-				</li>
-				-->
 				<li class="nav-item dropdown">
 					<a href="#" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
 					id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false">develop</a>
@@ -79,21 +74,32 @@
 			</ul>
 			<!-- right_nav -->
 			<ul class="navbar-nav">
-				<li class="nav-item">
-					<?php if (isset($user->name)){ ?>  
-						<p style="margin: 10px; color: gray;">User : {{$user->name}}</p>
+				@auth
+					<?php if (isset($user->name)){ ?>
+					<li class="nav-item dropdown">
+						<a href="#" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+						id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false">{{$user->name}}</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" href="/mypage/{{$user->id}}">User_display</a>
+							<a class="dropdown-item" href="/mypage/{{$user->id}}/edit">User_edit</a>
+							<div class="drop_logout_wrap" style="padding-left: 10px;">
+								{!! Form::model(null, [
+									'route' => 'logout', 'method' => 'post', 'class' => 'form-horizontal'
+								]) !!}
+								{!! Form::submit('Logout', ['class' => 'btn btn-default']) !!}
+								{!! Form::close() !!}							
+							</div>
+						</div><!-- ./dropdown-menu -->
+					</li>
 					<?php } ?>
-				</li>
+				@else
+					<li class="nav-item">
+						<a class="nav-link" href="/login">Login</a>
+					</li>					
+				@endauth				
 				<li class="nav-item">
 					<a class="nav-link" href="/about">About</a>
 				</li>
-				<li class="nav-item active">
-						{!! Form::model(null, [
-							'route' => 'logout', 'method' => 'post', 'class' => 'form-horizontal'
-						]) !!}
-						{!! Form::submit('logout', ['class' => 'btn btn-default']) !!}
-						{!! Form::close() !!}
-				</li>                
 			</ul>            
 		</div>
 		<hr />

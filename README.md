@@ -5,6 +5,8 @@
  Author  : Kouji Nakashima / kuc-arc-f.com
 
  date    : 2020/05/02
+ 
+ update  : 2020/05/20
 
 ***
 
@@ -21,7 +23,7 @@ php composer.phar create-project --prefer-dist laravel/laravel lara58a "5.8.*"
 
 php composer.phar require laravelcollective/html "5.8.*"
 
-* .env.local を、 .env にリネームして下さい。
+* .env.local を参考に、 .env 修正下さい
 
 ***
 ### start

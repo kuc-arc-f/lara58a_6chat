@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Log;
+use Carbon\Carbon;
+
+use App\Message;
+use App\User;
 use App\Chat;
 use App\ChatMember;
 use App\ChatPost;
 
-use Log;
-use Carbon\Carbon;
 //
 class ChatsController extends Controller
 {
@@ -31,6 +34,7 @@ class ChatsController extends Controller
      **************************************/
     public function index()
     {
+        $message_display_mode = true;
         $mode_join = 1;
         $mode_all = 2;
         $disp_mode = $mode_join;
@@ -57,10 +61,15 @@ class ChatsController extends Controller
             ->where('chat_members.user_id', $user_id)
             ->paginate($this->INDEX_TBL_LIMIT);
         }
+        //messages
+        $messages = $this->get_message_items($user_id );        
 //debug_dump($chats->toArray() );
-//exit();        
-        return view('chats/index')->with(compact('chats', 'user', 'user_id' ,
-            'chat_members', 'disp_mode'));
+//exit();          
+        return view('chats/index')->with(compact(
+            'chats', 'user', 'user_id' ,
+            'chat_members', 'disp_mode' ,
+            'message_display_mode','messages'
+        ));
     }
     /**************************************
      *
@@ -125,6 +134,7 @@ class ChatsController extends Controller
      **************************************/
     public function show($id)
     {
+        $message_display_mode = true;
         $user = Auth::user();
         $user_id = Auth::id();
         $chat = Chat::find($id);
@@ -132,7 +142,6 @@ class ChatsController extends Controller
         $chat_members = ChatMember::where('chat_id', $id)
             ->where('user_id' , '<>', $user_id)
             ->get(); 
-//debug_dump($chat_members->toArray() );
 
         $chat_member = ChatMember::where('chat_id', $id)
             ->where('user_id', $user_id)
@@ -147,10 +156,14 @@ class ChatsController extends Controller
             ->limit($this->TBL_LIMIT)
             ->get(); 
         $chat_posts_json = json_encode($chat_posts->toArray() );
+        //message
+        $messages = $this->get_message_items($user_id );
+//debug_dump($messages );
+//exit();
         return view('chats/show')->with(compact(
             "chat", "user_id", "id", "chat_member",
              "chat_members","user", "chat_posts", "chat_posts_json",
-             "SUPER_USER_MAIL"
+             "SUPER_USER_MAIL", "messages", "message_display_mode"
         ) );
     }  
     /**************************************

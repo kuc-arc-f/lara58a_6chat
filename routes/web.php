@@ -54,6 +54,10 @@ Route::get('/chats/test', 'ChatsController@test')->name('chats.test');
 
 Route::post('/chats/search_index', 'ChatsController@search_index')->name('chats.search_index');
 Route::resource('chats', 'ChatsController');
+//messages
+Route::get('/messages/show_sent', 'MessagesController@show_sent')->name('messages.show_sent');
+Route::get('/messages/reply', 'MessagesController@reply')->name('messages.reply');
+Route::resource('messages', 'MessagesController');
 //
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
@@ -105,6 +109,11 @@ Route::prefix('api')->group(function(){
     Route::post('/apichats/update_token', 'ApiChatsController@update_token');
     Route::post('/apichats/update_post', 'ApiChatsController@update_post');
     Route::post('/apichats/delete_post', 'ApiChatsController@delete_post');
+    // messages
+    Route::post('/apimessages/get_item', 'ApiMessagesController@get_item');
+    Route::post('/apimessages/get_sent_item', 'ApiMessagesController@get_sent_item');
+    Route::post('/apimessages/get_user', 'ApiMessagesController@get_user');
+
     //sys
     Route::post('/apisystem/delete_db_day', 'ApiSystemController@delete_db_day');
     Route::post('/apisystem/get_fcm_init', 'ApiSystemController@get_fcm_init');
