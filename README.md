@@ -63,7 +63,7 @@ https://knaka0209.hatenablog.com/entry/lara58_24chat
 
 ![ img-1 ](https://raw.githubusercontent.com/kuc-arc-f/screen-img/master/web/chat/ss-chat-notificateMenu.png)
 
-* cs output , chat data
+* csv output , chat data
 
 ![ img-1 ](https://raw.githubusercontent.com/kuc-arc-f/screen-img/master/web/chat/ss-chat-csvOutput.png)
 
