@@ -1,12 +1,12 @@
 ﻿# lara58a_6chat
 
- Version: 0.9.2
+ Version: 0.9.4
 
  Author  : Kouji Nakashima / kuc-arc-f.com
 
  date    : 2020/05/02
  
- update  : 2020/05/20
+ update  : 2020/05/28
 
 ***
 
