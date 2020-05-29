@@ -1,6 +1,6 @@
 <div class="btn-group notify_menu_wrap mb-2" data-toggle="tooltip" title="通知リスト表示できます">
     <!-- btn-outline-warning btn-lg -->
-    <button type="button" class="btn btn-success dropdown-toggle"
+    <button type="button" class="btn btn-sm btn-success dropdown-toggle"
      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="far fa-bell"></i>
     </button>

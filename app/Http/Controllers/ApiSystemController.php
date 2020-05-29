@@ -15,8 +15,10 @@ use App\Chat;
 use App\ChatMember;
 use App\ChatPost;
 use App\Dept;
-use App\Member;
 use App\Mdat;
+use App\Member;
+use App\Message;
+use App\MessageFile;
 use App\Libs\AppConst;
 //
 class ApiSystemController extends Controller
@@ -57,6 +59,7 @@ class ApiSystemController extends Controller
             $this->delete_depts();
             $this->delete_members();
             $this->delete_mdats(); 
+            $this->delete_messages();
             //file-delete
 //            $this->delete_mdat_files(); 
         }
@@ -246,6 +249,46 @@ class ApiSystemController extends Controller
             $item->delete();            
         }
     }
+    /**************************************
+     *
+     **************************************/
+    private function delete_messages(){
+        $this->delete_message_files();
+        $messages = Message::orderBy('id', 'asc')->get();
+		//db-delete
+		foreach($messages as $message ){
+			$message = Message::find($message->id );
+//debug_dump($message->id );
+			$message_file = MessageFile::where('message_id', $message->id )
+			->first();
+			if(empty($message_file) == false){
+//debug_dump($message_file->id );
+				$message_fileOne = MessageFile::find($message_file->id );
+// debug_dump($message_fileOne->id );
+				$message_fileOne->delete();
+			}
+			$message->delete();
+		}        
+    }
+    /**************************************
+     *
+     **************************************/
+    private function delete_message_files(){
+		$messages = Message::orderBy('id', 'asc')->get();
+		foreach($messages as $message ){
+			$message_file = MessageFile::where('message_id', $message->id )
+			->first();
+			if(empty($message_file) == false){
+//debug_dump($message_file->name );
+//				$storage_path = storage_path('app/') . "message_files/" . $message_file->name;
+				$storage_path = "message_files/" . $message_file->name;
+//debug_dump($storage_path );
+				Storage::delete($storage_path );
+			}
+
+		}
+    }
+
     /**************************************
      *
      **************************************/

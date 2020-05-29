@@ -9,6 +9,7 @@
 		<h3>Chat Information :
 		</h3>
 	</div>
+	<hr />
 	<div class="panel-body">
 		Name:
 		<h3>{{$chat->name}}<br />
@@ -16,12 +17,14 @@
 		info:
 		<p>{{$chat->content }}
 		</p>
+		Create : <?= $chat->created_at->format('Y-m-d') ?>
+
 		<hr />
-		<h3>members:</h3>
+		<h3>Members:</h3>
 		<table class="table table-striped task-table">
 			<thead>
-				<th>user</th>
-				<th>join date</th>
+				<th>User name</th>
+				<th>Join date</th>
 			</thead>
 			<?php //debug_dump($tasks); ?>
 			<tbody>
@@ -36,7 +39,7 @@
 						{{ $member->user_name }}
 					</td>
 					<td class="table-text">
-						{{ $member->created_at }}
+						{{ $member->created_at->format('Y-m-d') }}
 					</td>											
 				</tr>
 				@endforeach

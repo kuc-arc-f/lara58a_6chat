@@ -27,26 +27,23 @@ class ChatsController extends Controller
         $this->middleware('auth');
         $this->TBL_LIMIT = 500;
         $this->INDEX_TBL_LIMIT = 20;
+        $this->VERSION = "0.9.5";
     }
-
     /**************************************
      *
      **************************************/
     public function index()
     {
+        $version = $this->VERSION;
         $message_display_mode = true;
         $mode_join = 1;
         $mode_all = 2;
-        $disp_mode = $mode_join;
-        if (isset($_GET['mode'])) {
-            if((int)$_GET['mode'] == $mode_all ){
-                $disp_mode = $mode_all;
-            }
-        }
+        $disp_mode = $mode_all;
         $user = Auth::user();
         $user_id = Auth::id();
         $chat_members = $this->get_chat_members($user_id);
         $chats = [];
+        $join_chats = [];
         if($disp_mode == $mode_all){
             $chats = Chat::orderBy('id', 'desc')->paginate($this->INDEX_TBL_LIMIT);
         }else{
@@ -61,6 +58,7 @@ class ChatsController extends Controller
             ->where('chat_members.user_id', $user_id)
             ->paginate($this->INDEX_TBL_LIMIT);
         }
+        $join_chats = $this->get_join_chats($user_id);
         //messages
         $messages = $this->get_message_items($user_id );        
 //debug_dump($chats->toArray() );
@@ -68,8 +66,25 @@ class ChatsController extends Controller
         return view('chats/index')->with(compact(
             'chats', 'user', 'user_id' ,
             'chat_members', 'disp_mode' ,
-            'message_display_mode','messages'
+            'message_display_mode','messages','join_chats'
+            ,'version'
         ));
+    }
+    /**************************************
+     *
+     **************************************/
+    private function get_join_chats($user_id){
+        $join_chats = Chat::orderBy('chats.id', 'desc')
+        ->select([
+            'chats.id',
+            'chats.name',
+            'chats.user_id',
+            'chats.created_at',                
+        ])
+        ->join('chat_members','chat_members.chat_id','=','chats.id')
+        ->where('chat_members.user_id', $user_id)
+        ->paginate($this->INDEX_TBL_LIMIT);
+        return $join_chats ;
     }
     /**************************************
      *
@@ -85,11 +100,13 @@ class ChatsController extends Controller
         $chats = Chat::orderBy('id', 'desc')
         ->where("name", "like", "%" . $data["name"] . "%" )
         ->paginate($this->TBL_LIMIT);
+
 //debug_dump($chats);
         $params = $data;
+        $join_chats = $this->get_join_chats($user_id);
         return view('chats/index')->with(compact(
             'chats', 'user' ,'chat_members','params',
-            'user_id', 'disp_mode'
+            'user_id', 'disp_mode', 'join_chats'
         ));
     }
     /**************************************
@@ -134,6 +151,7 @@ class ChatsController extends Controller
      **************************************/
     public function show($id)
     {
+        $version = $this->VERSION;
         $message_display_mode = true;
         $user = Auth::user();
         $user_id = Auth::id();
@@ -158,12 +176,14 @@ class ChatsController extends Controller
         $chat_posts_json = json_encode($chat_posts->toArray() );
         //message
         $messages = $this->get_message_items($user_id );
+        $join_chats = $this->get_join_chats($user_id);     
 //debug_dump($messages );
 //exit();
         return view('chats/show')->with(compact(
             "chat", "user_id", "id", "chat_member",
              "chat_members","user", "chat_posts", "chat_posts_json",
-             "SUPER_USER_MAIL", "messages", "message_display_mode"
+             "SUPER_USER_MAIL", "messages", "message_display_mode",
+             "join_chats", "version"
         ) );
     }  
     /**************************************

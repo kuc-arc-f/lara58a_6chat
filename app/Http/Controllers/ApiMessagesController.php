@@ -90,6 +90,49 @@ class ApiMessagesController extends Controller
 		->first();
 		return response()->json($user );
 	}
+	/**************************************
+	 *
+	 **************************************/
+	public function get_last_item(Request $request)
+	{   
+		$data = $request->all();
+		$messages = Message::select([
+			'messages.id',
+			'messages.title',
+		])
+		->orderBy('id', 'desc')
+		->where('to_id' , $data["user_id"] )
+		->first();
+		return response()->json($messages );
+	}
+    /**************************************
+     *
+     **************************************/    
+    public function search(Request $request){
+        $data = $request->all();
+/*
+		$messages = Message::orderBy('id', 'desc')
+		->where("title", "like", "%" . $data["search_key"] . "%" )
+        ->limit($this->TBL_LIMIT)
+		->get();
+*/
+		$messages = Message::orderBy('messages.id', 'desc')
+		->select([
+			'messages.id',
+			'messages.title',
+			'messages.created_at',
+			'messages.status',
+			'users.name as user_name',
+		])
+		->join('users','users.id','=','messages.from_id')
+		->where("messages.title", "like", "%" . $data["search_key"] . "%" )
+		->where("users.email", "like", "%" . $data["search_mail"] . "%" )
+		->where('to_id' , $data["user_id"] )
+        ->limit($this->TBL_LIMIT)
+		->get();
 
+		$messages = $this->get_receive_items($messages);
+        return response()->json( $messages  );
+    }
 
 }

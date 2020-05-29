@@ -55,9 +55,18 @@ Route::get('/chats/test', 'ChatsController@test')->name('chats.test');
 Route::post('/chats/search_index', 'ChatsController@search_index')->name('chats.search_index');
 Route::resource('chats', 'ChatsController');
 //messages
+//Route::post('/messages/search_index', 'MessagesController@search_index')->name('messages.search_index');
+//Route::get('/messages/test', 'MessagesController@test')->name('messages.test');
 Route::get('/messages/show_sent', 'MessagesController@show_sent')->name('messages.show_sent');
 Route::get('/messages/reply', 'MessagesController@reply')->name('messages.reply');
+Route::get('/messages/export', 'MessagesController@export')->name('messages.export');
 Route::resource('messages', 'MessagesController');
+
+//bbs
+Route::post('/bbs/confirm', 'BbsPostsController@confirm')->name('bbs.confirm');
+Route::post('/bbs/search_index', 'BbsPostsController@search_index')->name('bbs.search_index');
+Route::resource('bbs', 'BbsPostsController');
+Route::resource('bbs_answers', 'BbsAnswersController');
 //
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
@@ -110,9 +119,11 @@ Route::prefix('api')->group(function(){
     Route::post('/apichats/update_post', 'ApiChatsController@update_post');
     Route::post('/apichats/delete_post', 'ApiChatsController@delete_post');
     // messages
+    Route::post('/apimessages/get_last_item', 'ApiMessagesController@get_last_item');
     Route::post('/apimessages/get_item', 'ApiMessagesController@get_item');
     Route::post('/apimessages/get_sent_item', 'ApiMessagesController@get_sent_item');
     Route::post('/apimessages/get_user', 'ApiMessagesController@get_user');
+    Route::post('/apimessages/search', 'ApiMessagesController@search');
 
     //sys
     Route::post('/apisystem/delete_db_day', 'ApiSystemController@delete_db_day');

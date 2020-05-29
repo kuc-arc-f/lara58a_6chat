@@ -44,7 +44,8 @@ function recv_pushMessage(title, body){
 			if (permission === 'granted') {// 許可
 				var options ={
 					body: body,
-					icon: 'https://knaka0209.net//icon1.png',                    
+//					icon: 'https://knaka0209.net//icon1.png',
+					icon: 'https://knaka0209.net/pwa/images/icon2.png',					                    
 					tag: ''
 				};
 				var n = new Notification(title,options);

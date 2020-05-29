@@ -1,7 +1,7 @@
 
 // Service Worker のバージョンとキャッシュする App Shell を定義する
 const NAME = 'pwa-knaka-v1-';
-const VERSION = '002';
+const VERSION = '003';
 const CACHE_NAME = NAME + VERSION;
 const urlsToCache = [
 ];

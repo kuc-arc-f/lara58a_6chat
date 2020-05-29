@@ -23,11 +23,15 @@
 			</div>
 		@endif
 		<div class="panel-body">
+			<!--
 			{!! Form::model($message, [
 				'route' => 'messages.store', 'method' => 'post', 'class' => 'form-horizontal',
 				'id'=>'form_message'
 				]) 
 			!!}
+			-->
+			<form action="/messages" method="post" enctype="multipart/form-data">
+				{{ csrf_field() }}			
 			<div class="form-group">
 				<div class="col-sm-6">
 					<!-- to_id: -->
@@ -67,6 +71,15 @@
 					]) !!}
 				</div>
 			</div>
+			<hr />
+			<div class="form-group">
+				Attach file :
+				<div class="col-sm-8">
+					<input type="file" value="Select File" name="attach_file"
+					class="btn btn-outline-primary" />
+				</div>				
+			</div>
+
 			<div class="form-group">
 				<div class="col-sm-offset-3 col-sm-6 sumit_btn">
 					{!! Form::submit('Send', ['class' => 'btn btn-primary']) !!}

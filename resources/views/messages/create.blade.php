@@ -12,7 +12,7 @@
 			<br />
 			<h3 class="" style="margin-top: 8px;">Message - 新規作成</h3>
 		</div>
-		<hr class="mt-0" />
+		<hr class="mt-0 mb-0" />
 		@if (count($errors) > 0)
 			<div class="alert alert-danger">
 			<ul>
@@ -40,11 +40,8 @@
 					</div>
 				</div>
 			</div>
-			{!! Form::model($message, [
-				'route' => 'messages.store', 'method' => 'post', 'class' => 'form-horizontal',
-				'id'=>'form_message'
-				]) 
-			!!}
+			<form action="/messages" method="post" enctype="multipart/form-data">
+				{{ csrf_field() }}
 			<div class="form-group">
 				<div class="col-sm-6">
 					{!! Form::hidden('to_id', null, [
@@ -55,7 +52,7 @@
 			</div>
 			<div class="form-group">
 				<div class="sent_user_wrap" style="display:none;">
-					<hr />
+					<hr class="mt-2 mb-2" />
 					送信先 :
 					<div class="col-sm-8">
 						{{Form::checkbox('check_1', 1, true)}} @{{user.name}}  / @{{user.email}} <br />
@@ -83,6 +80,15 @@
 					]) !!}
 				</div>
 			</div>
+			<hr class="mt-2 mb-2"/>
+			<div class="form-group">
+				Attach file :
+				<div class="col-sm-8">
+					<input type="file" value="Select File" name="attach_file"
+					class="btn btn-outline-primary" />
+				</div>				
+			</div>			
+			<hr />
 			<div class="form-group">
 				<div class="col-sm-offset-3 col-sm-6 sumit_btn">
 					{!! Form::submit('Send', ['class' => 'btn btn-primary']) !!}
@@ -90,7 +96,7 @@
 			</div>
 			{!! Form::close() !!}
 		</div>
-		<hr />
+		<!-- <hr /> -->
 		<br />
 		<div class="panel-footer">
 		</div>

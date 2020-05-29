@@ -1,16 +1,24 @@
 ﻿# lara58a_6chat
 
- Version: 0.9.2
+ Version: 0.9.5
 
  Author  : Kouji Nakashima / kuc-arc-f.com
 
  date    : 2020/05/02
  
- update  : 2020/05/20
+ update  : 2020/05/29
 
 ***
 
 Laravel 5.8 + firebase Cloud message, chat app sample
+
+* Web push対応
+
+* Notification API 対応, 新着のタスクバーに通知表示
+
+* PWA対応
+
+* Googleログイン対応
 
 ***
 ### setup

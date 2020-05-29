@@ -9,170 +9,143 @@
 <script src="/js/fcm_init.js?B1"></script>
 
 <!-- -->
-<div class="row">
-    <div class="col-sm-3">
-        @include('element.chat_left_area',
-        [
-        ])         
-    </div>
-    <div class="col-sm-9">
-		<!-- -->
-		<div id="app">
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<div class="row" style="margin-top: 10px;">
-						<div class="col-sm-8">
-							<h3>{{$chat->name}}</h3>
-							<p class="mb-2">ID : {{$chat->id}} </p>
-						</div>
-						<div class="col-sm-4" style="text-align: center; ">
-							@include('element.chat_notify',[]) <br />
-							<!-- action -->
-							<div style="text-align: center; ">
-								@include('element.chat_action_item', []) 
-							</div>
-						</div>
-					</div>
-					<!--
-					<hr class="mt-0 mb-2"/>
-					<div class="row">
-						<div class="col-sm-6" style="text-align: left;">
-							<p class="mb-2"> 
-								&nbsp;<a class="btn btn-outline-primary btn-sm"
-								href="/chats/info_chat?id={{$chat->id}}" 
-								data-toggle="tooltip" title="参加メンバーなど表示できます">Chat info</a>
-							</p>					
-						</div>
-						<div class="col-sm-6" style="text-align: right;">
-							<a href="/chats/csv_get?chat_id={{$chat->id}}"
-							class="btn btn-outline-primary btn-sm" 
-							data-toggle="tooltip" title="CSVファイルの出力">CSV 出力</a>
-						</div>
-					</div>
-					-->
-
-					<hr class="mt-0 mb-2"/>
-					<!-- input_area -->
-					<div class="input_area_wrap" style="text-align: center;">
-						<div class="row">
-							<div class="col-sm-6" style="text-align: right;">
-								<!--  mb-0 -->
-								<textarea v-model="message" class="form-control mt-0"
-								style="padding :12px; 0px;"
-								rows="3" cols="40" id="send_text"
-								v-on:click="input_active();"
-								placeholder="please Input" required="required"></textarea>                        
-							</div>
-							<div class="col-sm-6" style="text-align: left;">
-								<button @click="addItem" id="send_button" class="btn btn-primary"
-								data-toggle="tooltip" title="send post">Post
-								</button>                        
-							</div>
-						</div>
-					</div>
-					<hr class="mt-2 mb-2">	
-					<!-- post-list -->
-					<ul class="ul_post_box" style="list-style: none;">
-						<li v-for="task in tasks" v-bind:key="task.id">
-							<div v-bind:class="'post_item'+' '+ task.item_bg"
-								v-on:click="open_modal(task.id)">
-								<div class="col_name">
-									<div class="post_user_wrap">
-										<!--  class="pl-2" -->
-										<span style="font-size: 42px; float: left; padding: 0px;">
-											<div v-if="task.is_other">
-												<i class="far fa-meh"></i>	
-											</div>
-											<div v-else style="color: #616161;  padding: 0px;">
-												<i class="fas fa-meh" style="margin: 0px;"></i>
-											</div>
-										</span>
-										<div class="time_box pl-1" >
-											<p class="mb-0">
-												@{{ task.user_name }}:<br /> 
-												@{{ task.date_str }}
-
-												<!-- ID: @{{ task.id }} -->
-											</p>
-										</div>
-									</div>
-								</div>
-								<div class="col_body">
-									<p class="li_p_box mb-0" v-html="task.body">
-									</p>							 
-								</div>
-							<div>
-						</li>
-					</ul>
-					<hr />
-					{{ link_to_route('chats.index', '戻る', null, ["class" => "btn btn-outline-primary"]) }}
+<div id="app">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			{{ link_to_route('chats.index', '戻る', null, 
+			["class" => "btn btn-outline-primary mt-2"]) }}
+			<br />
+			<div class="row" style="margin-top: 10px;">
+				<div class="col-sm-6">
+					<!-- Chat: -->
+					<h3>{{$chat->name}}</h3>
 				</div>
-
-				<!-- -->    
-				<div class="token_wrap" style="display: none;">
-					<p>
-						title:
-						<input type="text" value="title-123" id="send_title">
-					</p>
-					<hr />
-					<p>
-						IID_TOKEN:
-						<input type="text" value="YOUR-INCETANCE-ID-TOKEN" id="textInstanceIdToken"
-						style="width:100%;box-sizing:border-box;">
-					</p>
+				<!-- padding-right: 80px; -->
+				<div class="col-sm-6" style="text-align: center; ">
+					@include('element.chat_notify',[]) 
 				</div>
 			</div>
-			<!-- modal -->	
-			<div class="modal fade" id="modal1" tabindex="-1"
-				role="dialog" aria-labelledby="label1" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered" role="document">
-					<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="label1">
-							@{{ modal_item.user_name }} : @{{ modal_item.date_str }}
-						</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-						</button>
+			<hr class="mt-0 mb-2"/>
+			<div class="row">
+				<div class="col-sm-6" style="text-align: left;">
+					<p class="mb-2">chat-ID: {{$chat->id}}  
+						&nbsp;<a class="btn btn-outline-primary btn-sm"
+						 href="/chats/info_chat?id={{$chat->id}}" 
+						 data-toggle="tooltip" title="参加メンバーなど表示できます">Chat info</a>
+					</p>					
+				</div>
+				<div class="col-sm-6" style="text-align: right;">
+					<a href="/chats/csv_get?chat_id={{$chat->id}}"
+					class="btn btn-outline-primary btn-sm" 
+					data-toggle="tooltip" title="CSVファイルの出力">CSV 出力</a>
+				</div>
+			</div>
+			<hr class="mt-0 mb-2"/>
+			<!-- input_area -->
+			<div class="input_area_wrap" style="text-align: center;">
+				<div class="row">
+					<div class="col-sm-6" style="text-align: right;">
+						<!--  mb-0 -->
+						<textarea v-model="message" class="form-control mt-0"
+						style="padding :12px; 0px;"
+						rows="3" cols="40" id="send_text"
+						v-on:click="input_active();"
+						placeholder="please Input" required="required"></textarea>                        
 					</div>
-					<div class="modal-body">
-						ID: @{{modal_item.id}}
-						<pre class="modal_body_text" v-html="modal_item.body_org"></pre>
-						<div v-if="delete_ok">
-							<hr />
-							<span style="font-size: 24px; color: #f44336;" class="pl-2">
-								<i v-on:click="open_delete(modal_item.id)" class="far fa-trash-alt"></i>
-							</span>
+					<div class="col-sm-6" style="text-align: left;">
+						<button @click="addItem" id="send_button" class="btn btn-primary"
+						data-toggle="tooltip" title="send post">Post
+						</button>                        
+					</div>
+				</div>
+			</div>
+			<hr class="mt-2 mb-2">	
+			<!-- post-list -->
+			<ul class="ul_post_box" style="list-style: none;">
+				<li v-for="task in tasks" v-bind:key="task.id">
+					<div v-bind:class="'post_item'+' '+ task.item_bg"
+						v-on:click="open_modal(task.id)">
+						<div class="col_name">
+							<div class="post_user_wrap">
+								<!--  class="pl-2" -->
+								<span style="font-size: 42px; float: left; padding: 0px;">
+									<div v-if="task.is_other">
+										<i class="far fa-meh"></i>	
+									</div>
+									<div v-else style="color: #616161;  padding: 0px;">
+										<i class="fas fa-meh" style="margin: 0px;"></i>
+									</div>
+								</span>
+								<div class="time_box pl-1" >
+									<p class="mb-0">
+										@{{ task.user_name }}:<br /> 
+										@{{ task.date_str }}
+
+										<!-- ID: @{{ task.id }} -->
+									</p>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					</div>
-					</div><!-- modal-content -->
-				</div><!-- modal-dialog -->
-			</div><!-- modal -->
+						<div class="col_body">
+							<p class="li_p_box mb-0" v-html="task.body">
+							</p>							 
+						</div>
+					<div>
+				</li>
+			</ul>
+			<hr />
+			{{ link_to_route('chats.index', '戻る', null, ["class" => "btn btn-outline-primary"]) }}
+		</div>
 
-		</div><!-- app -->  
+		<!-- -->    
+		<div class="token_wrap" style="display: none;">
+			<p>
+				title:
+				<input type="text" value="title-123" id="send_title">
+			</p>
+			<hr />
+			<p>
+				IID_TOKEN:
+				<input type="text" value="YOUR-INCETANCE-ID-TOKEN" id="textInstanceIdToken"
+				style="width:100%;box-sizing:border-box;">
+			</p>
+		</div>
 	</div>
-</div>
+	<!-- modal -->	
+	<div class="modal fade" id="modal1" tabindex="-1"
+		role="dialog" aria-labelledby="label1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="label1">
+					@{{ modal_item.user_name }} : @{{ modal_item.date_str }}
+				</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				ID: @{{modal_item.id}}
+				<pre class="modal_body_text" v-html="modal_item.body_org"></pre>
+				<div v-if="delete_ok">
+					<hr />
+					<span style="font-size: 24px; color: #f44336;" class="pl-2">
+						<i v-on:click="open_delete(modal_item.id)" class="far fa-trash-alt"></i>
+					</span>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+			</div><!-- modal-content -->
+		</div><!-- modal-dialog -->
+	</div><!-- modal -->
 
+</div><!-- app -->  
 <!-- -->
 <div class="time_text_wrap" style="display: none;">
 	watch-test:
 	<input type="text" id="time_text" value="" />
-</div>
-<!-- -->
-<div class="panel panel-default">
-	<hr />
-	<div class="panel-footer">
-		<br />
-		<br />
-	</div>
-	@include('element.page_info',
-	[
-		'git_url' => 'https://github.com/kuc-arc-f/lara58a_6chat',
-		'blog_url' => 'https://knaka0209.hatenablog.com/entry/lara58_13chat'
-	])
 </div>
 
 <!-- -->
@@ -222,6 +195,22 @@
 }
 
 </style>
+<!-- -->
+<div class="panel panel-default">
+	<hr />
+	<div class="panel-footer">
+		<!--
+		{{ link_to_route('chats.index', '戻る', null, ["class" => "btn btn-outline-primary"]) }}
+		-->
+		<br />
+		<br />
+	</div>
+	@include('element.page_info',
+	[
+		'git_url' => 'https://github.com/kuc-arc-f/lara58a_6chat',
+		'blog_url' => 'https://knaka0209.hatenablog.com/entry/lara58_13chat'
+	])
+</div>
 <!-- -->
 <script>
 const CHAT_MEMBER_ID  ="{{$chat_member->id}}";
