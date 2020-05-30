@@ -17,6 +17,7 @@
 	</div><!-- /.btn-group -->		
 	<?php if($user->id == $chat->user_id){ ?>
 		<a href="/chats/<?= $chat->id ?>/edit"
+			class="btn btn-outline-primary btn-sm mb-2"
 			data-toggle="tooltip" title="edit chat">
 		<i class="far fa-edit"></i></a>
 	<?php } ?>

@@ -7,7 +7,8 @@
 	<!-- -->
 	<div class="left_menu_wrap">
 		<div class="menu_home">
-			<a href="/chats" class="btn btn-outline-primary">Chat Home
+			<a href="/chats" class="btn btn-outline-primary">
+				<i class="fas fa-home"></i> Chat Home
 			</a>
 		</div>
 

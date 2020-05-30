@@ -33,23 +33,6 @@
 							</div>
 						</div>
 					</div>
-					<!--
-					<hr class="mt-0 mb-2"/>
-					<div class="row">
-						<div class="col-sm-6" style="text-align: left;">
-							<p class="mb-2"> 
-								&nbsp;<a class="btn btn-outline-primary btn-sm"
-								href="/chats/info_chat?id={{$chat->id}}" 
-								data-toggle="tooltip" title="参加メンバーなど表示できます">Chat info</a>
-							</p>					
-						</div>
-						<div class="col-sm-6" style="text-align: right;">
-							<a href="/chats/csv_get?chat_id={{$chat->id}}"
-							class="btn btn-outline-primary btn-sm" 
-							data-toggle="tooltip" title="CSVファイルの出力">CSV 出力</a>
-						</div>
-					</div>
-					-->
 
 					<hr class="mt-0 mb-2"/>
 					<!-- input_area -->
