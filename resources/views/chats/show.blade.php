@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', "")
+@section('title', $chat->name )
 
 @section('content')
 <link rel="manifest" href="/manifest.json">

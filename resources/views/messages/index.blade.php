@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', ' ')
+@section('title', 'messages')
 
 @section('content')
 <script src="/js/message.js?A1"></script>
@@ -18,10 +18,17 @@
 					{{ link_to_route('messages.create', 'Create' ,null, 
 					['class' => 'btn btn-primary']) }}
 				</div>
-				<div class="col-sm-4" style="text-align: right;">
-					<a href="#" class="btn btn-sm btn-outline-primary serach_display_btn mb-0">
-						<i class="fas fa-arrow-down serach_display_btn"></i>&nbsp;Search
+				<!-- text-align: left; -->
+				<div class="col-sm-4" style="padding-top: 8px;">
+					<a href="/messages"
+						class="btn btn-outline-primary btn-sm" style="float :left;">
+						<i class="fas fa-redo-alt"></i> Reload
 					</a>
+					<span class="search_btn_wrap" style="margin-left : 10px;">
+						<a href="#" class="btn btn-sm btn-outline-primary serach_display_btn mb-0">
+							<i class="fas fa-arrow-down serach_display_btn"></i>&nbsp;Search
+						</a>
+					</span>
 				</div>
 			</div> 
 		</div>
@@ -222,16 +229,17 @@ new Vue({
 		change_type: function(type) {
 // console.log(type );
 			if(type == MODE_RECEIVE){
-				$('.search_wrap').css('display','inherit');
+//				$('.search_wrap').css('display','inherit');
 				$('#nav_receive_tab').addClass('active');
 				$('#nav_sent_tab').removeClass('active');	
+				$('.search_btn_wrap').css('display','inherit');
 				this.get_items(USER_ID);			
 			}else{
-
 				$('#nav_sent_tab').addClass('active');
 				$('#nav_receive_tab').removeClass('active');
 				this.get_sent_item();
 				$('.search_wrap').css('display','none');
+				$('.search_btn_wrap').css('display','none');
 			}
 		},
 		count: function() {

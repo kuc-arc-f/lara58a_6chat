@@ -14,7 +14,7 @@ class ApiMessagesController extends Controller
 	 *
 	 **************************************/
 	public function __construct(){
-		$this->middleware('auth');
+//		$this->middleware('auth');
 		$this->TBL_LIMIT = 500;
 	}
 	/**************************************
@@ -37,7 +37,7 @@ class ApiMessagesController extends Controller
 		->limit($this->TBL_LIMIT)
 		->get();
 		$messages = $this->get_receive_items($messages);
-		return response()->json($messages );
+		return response()->json($messages);
 	}
 	/**************************************
 	 *

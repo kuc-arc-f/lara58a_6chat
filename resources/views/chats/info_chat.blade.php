@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', '')
+@section('title', 'info_chat')
 
 @section('content')
 <div class="panel panel-default">

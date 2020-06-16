@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Log;
 use Carbon\Carbon;
+use Session;
 
 use App\Message;
 use App\User;
@@ -28,12 +29,20 @@ class ChatsController extends Controller
         $this->TBL_LIMIT = 500;
         $this->INDEX_TBL_LIMIT = 20;
         $this->VERSION = "0.9.5";
+        $this->SESSION_KEY_LAST_CHAT = "KEY_LAST_CHAT";
+
     }
     /**************************************
      *
      **************************************/
     public function index()
     {
+        //last_chat_id
+        $last_chat = Session::get( $this->SESSION_KEY_LAST_CHAT );
+//debug_dump($last_chat );
+        if(empty($last_chat) == false ){
+            return redirect('/chats/' . $last_chat );
+        }
         $version = $this->VERSION;
         $message_display_mode = true;
         $mode_join = 1;
@@ -61,14 +70,19 @@ class ChatsController extends Controller
         $join_chats = $this->get_join_chats($user_id);
         //messages
         $messages = $this->get_message_items($user_id );        
-//debug_dump($chats->toArray() );
-//exit();          
         return view('chats/index')->with(compact(
             'chats', 'user', 'user_id' ,
             'chat_members', 'disp_mode' ,
             'message_display_mode','messages','join_chats'
             ,'version'
         ));
+    }
+    /**************************************
+     *
+     **************************************/
+    public function home(){
+        Session::forget( $this->SESSION_KEY_LAST_CHAT );
+        return redirect('/chats');
     }
     /**************************************
      *
@@ -151,6 +165,7 @@ class ChatsController extends Controller
      **************************************/
     public function show($id)
     {
+
         $version = $this->VERSION;
         $message_display_mode = true;
         $user = Auth::user();
@@ -176,9 +191,10 @@ class ChatsController extends Controller
         $chat_posts_json = json_encode($chat_posts->toArray() );
         //message
         $messages = $this->get_message_items($user_id );
-        $join_chats = $this->get_join_chats($user_id);     
-//debug_dump($messages );
-//exit();
+        $join_chats = $this->get_join_chats($user_id);  
+        // set-Last-ID
+        Session::put($this->SESSION_KEY_LAST_CHAT , $id );   
+
         return view('chats/show')->with(compact(
             "chat", "user_id", "id", "chat_member",
              "chat_members","user", "chat_posts", "chat_posts_json",
@@ -230,11 +246,6 @@ class ChatsController extends Controller
         session()->flash('flash_message', '削除が完了しました');
         return redirect()->route('chats.index');
     }    
-    /*
-    public function home(){
-        return view('chats/home')->with('chat', null );
-    }      
-    */
     /**************************************
      *
      **************************************/    

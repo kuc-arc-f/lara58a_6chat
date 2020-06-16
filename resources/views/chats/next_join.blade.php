@@ -1,7 +1,7 @@
 
 @extends('layouts.app')
 
-@section('title', '')
+@section('title', 'next join')
 
 @section('content')
     <div class="panel panel-default">

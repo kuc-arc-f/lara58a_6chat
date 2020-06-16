@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '')
+@section('title', "show" )
 
 @section('content')
 <div class="panel panel-default" style="padding-top: 10px;">

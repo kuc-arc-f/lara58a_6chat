@@ -10,6 +10,8 @@ use App\User;
 use App\Todo;
 use App\Plan;
 use App\Task;
+use App\BbsAnswer;
+use App\BbsPost;
 use App\Book;
 use App\Chat;
 use App\ChatMember;
@@ -60,8 +62,8 @@ class ApiSystemController extends Controller
             $this->delete_members();
             $this->delete_mdats(); 
             $this->delete_messages();
-            //file-delete
-//            $this->delete_mdat_files(); 
+            $this->delete_bbs();
+            $this->delete_mdat_files(); 
         }
 //exit();
         return response()->json( $ret );
@@ -252,6 +254,44 @@ class ApiSystemController extends Controller
     /**************************************
      *
      **************************************/
+    private function delete_bbs(){
+        $posts = $this->get_delete_bbs_posts();
+        foreach ($posts as $item) {
+            $item = BbsPost::find($item["id"]);
+            $item->delete();            
+        }        
+        $answers = $this->get_delete_bbs_answers();
+//var_dump($answers );
+        foreach ($answers as $item) {
+            $item = BbsAnswer::find($item["id"]);
+            $item->delete();            
+        }  
+    }
+    /**************************************
+     *
+     **************************************/
+    private function get_delete_bbs_posts(){
+        $posts = [];
+        $posts = BbsPost::get();
+        if(!empty($posts )){
+            $posts = $posts->toArray();
+        }        
+        return $posts;
+    }
+    /**************************************
+     *
+     **************************************/
+    private function get_delete_bbs_answers(){
+        $answers = [];
+        $answers = BbsAnswer::get();
+        if(!empty($answers )){
+            $answers = $answers->toArray();
+        }        
+        return $answers;
+    }
+    /**************************************
+     *
+     **************************************/
     private function delete_messages(){
         $this->delete_message_files();
         $messages = Message::orderBy('id', 'asc')->get();
@@ -288,7 +328,6 @@ class ApiSystemController extends Controller
 
 		}
     }
-
     /**************************************
      *
      **************************************/
@@ -329,7 +368,6 @@ class ApiSystemController extends Controller
             return response()->json( $ret );            
             exit();
         }
-
 //var_dump($data);
         $params = [
             "FCM_messagingSenderId" => $this->FCM_messagingSenderId,
@@ -379,22 +417,22 @@ class ApiSystemController extends Controller
      **************************************/   
     private function delete_mdat_files(){
         $nowdate = Date("Ymd");
-        $directory = storage_path('app/csv/');
-var_dump($nowdate );
-var_dump($directory );
+        $directory = storage_path('app/csv');
+//var_dump($directory );
 //        $files = Storage::files($directory);
-//        $files = Storage::files("local");
-        $files = Storage::allFiles("public");
-var_dump($files );
-        //exit();
-//        $files = scandir($directory );
+//        $files = Storage::allFiles($csv_path);
+// var_dump($files );
+        $files = scandir($directory );
         foreach($files as $file ){
-            $filename= $directory . "/" . $file;
-var_dump($filename );
+            $filename= "csv/" . $file;
+//var_dump($filename );
+            Storage::delete($filename );
+/*
             $file_dt = date ("Ymd", filemtime($filename));
             if((int)$nowdate > (int)$file_dt ){
-//                unlink($filename);
+                unlink($filename);
             }            
+*/
         }
     } 
 

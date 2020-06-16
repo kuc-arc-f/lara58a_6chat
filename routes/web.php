@@ -50,6 +50,7 @@ Route::get('/chats/info_chat', 'ChatsController@info_chat')->name('chats.info_ch
 Route::get('/chats/add_member', 'ChatsController@add_member')->name('chats.add_member');
 Route::get('/chats/delete_member', 'ChatsController@delete_member')->name('chats.delete_member');
 Route::get('/chats/next_join', 'ChatsController@next_join')->name('chats.next_join');
+Route::get('/chats/home', 'ChatsController@home')->name('chats.home');
 Route::get('/chats/test', 'ChatsController@test')->name('chats.test');
 
 Route::post('/chats/search_index', 'ChatsController@search_index')->name('chats.search_index');
