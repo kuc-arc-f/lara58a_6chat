@@ -21,14 +21,20 @@
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<div class="row" style="margin-top: 10px;">
-						<div class="col-sm-8">
+						<div class="col-sm-6">
 							<h3>{{$chat->name}}</h3>
 							<p class="mb-2">ID : {{$chat->id}} </p>
 						</div>
-						<div class="col-sm-4" style="text-align: center; ">
+						<div class="col-sm-3 pt-2" style="text-align: center; ">
+							<a href="/chats"
+								class="btn btn-outline-primary">
+								<i class="fas fa-redo-alt"></i> Load
+							</a>							
+						</div>
+						<div class="col-sm-3" style="text-align: center; ">
 							@include('element.chat_notify',[]) <br />
 							<!-- action -->
-							<div style="text-align: center; ">
+							<div class="mt-2" style="text-align: right; ">
 								@include('element.chat_action_item', []) 
 							</div>
 						</div>
@@ -87,8 +93,10 @@
 							<div>
 						</li>
 					</ul>
+					<!--
 					<hr />
 					{{ link_to_route('chats.index', '戻る', null, ["class" => "btn btn-outline-primary"]) }}
+					-->
 				</div>
 
 				<!-- -->    

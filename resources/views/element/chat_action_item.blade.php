@@ -1,4 +1,10 @@
 <div class="action_btn_wrap" style="text-align: right;">
+	<!--
+	<a href="/chats"
+		class="btn btn-outline-primary btn-sm mb-2">
+		<i class="fas fa-redo-alt"></i>Load
+	</a>							
+	-->
 	<div class="btn-group mb-2" >
 		<!--  style="float: left;" -->
 		<button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle"
