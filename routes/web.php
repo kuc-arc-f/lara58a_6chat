@@ -36,6 +36,7 @@ Route::resource('vue_todos', 'VueTodosController');
 Route::post('/vue_sort_items/update_number', 'VueSortItemsController@update_number')->name('vue_sort_items.update_number');
 Route::resource('vue_sort_items', 'VueSortItemsController');
 //
+Route::get('/plans/week', 'PlansController@week')->name('plans.week');
 Route::resource('plans', 'PlansController');
 //
 Route::post('/mdats/csv_import', 'MdatsController@csv_import')->name('mdats.csv_import');

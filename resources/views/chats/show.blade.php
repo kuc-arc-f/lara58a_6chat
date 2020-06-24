@@ -6,7 +6,7 @@
 <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-messaging.js"></script>
 <script src="/js/chat_show.js?A3"></script>
-<script src="/js/fcm_init.js?B1"></script>
+<script src="/js/fcm_init.js?B2"></script>
 
 <!-- -->
 <div class="row">
@@ -247,9 +247,11 @@ new Vue({
 		delete_ok : 0,
 		input_expand_none: 0,
 		notify_items : [],
+		timerObj : null,
 	},
 	created:function(){
 		this.get_posts(USER_ID);
+		this.timer_start();
 	},
 	methods: {
 		update() {
@@ -309,7 +311,7 @@ new Vue({
 				});
 //console.log( new_items  )
 				this.tasks  = new_items;
-				this.timer_start();
+//				this.timer_start();
 				this.get_notify_menu(USER_ID);
 			})            
 		},
@@ -322,7 +324,7 @@ new Vue({
 					new_items.push(item);
 				});
 				this.notify_items = new_items;
-console.log( this.notify_items )
+// console.log( this.notify_items )
 			})
 		},
 		addItem() {
@@ -348,6 +350,7 @@ console.log( this.notify_items )
 		},
 		timer_start: function() {
 			var self = this;
+			this.timerObj = null;
 			this.timerObj = setInterval(function() {self.count()}, 3000)
 		},
 	}

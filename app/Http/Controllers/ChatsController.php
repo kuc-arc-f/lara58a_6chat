@@ -28,7 +28,7 @@ class ChatsController extends Controller
         $this->middleware('auth');
         $this->TBL_LIMIT = 500;
         $this->INDEX_TBL_LIMIT = 20;
-        $this->VERSION = "0.9.5";
+        $this->VERSION = "0.9.6";
         $this->SESSION_KEY_LAST_CHAT = "KEY_LAST_CHAT";
 
     }
